@@ -5,60 +5,43 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Tue Mar  3 16:06:39 2015 arthur
+** Last update Tue Mar  3 16:41:29 2015 arthur
 */
 
 #include <stdlib.h>
 #include <unistd.h>
-#include <string.h>
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
 
-void			accept_client(int fd, int cs, struct sockaddr_in *sin)
-{
-  char			*ip;
-  struct sockaddr_in	sin_c;
-  int			c_len;
+#include <string.h>
+#include <errno.h>
 
-  c_len = sizeof(sin_c);
-  if ((cs = accept(fd, (struct sockaddr*)&sin_c, (socklen_t*)&c_len)) == -1)
-    {
-      printf("accept");
-      return ;
-    }
-  ip = inet_ntoa(sin_c.sin_addr);
-  write(cs, "Salut, toi!\nIP: ", 16);
-  write(cs, ip, strlen(ip));
-}
-
-void			create_socket(int port)
+void			create_socket(char *ip, int port)
 {
-  int			cs;
   int			fd;
   struct protoent	*pe;
   struct sockaddr_in	sin;
+  
+  errno = 0;
 
   pe = getprotobyname("TCP");
   if ((fd = socket(AF_INET, SOCK_STREAM, pe->p_proto)) == -1)
-    return ;
+    {
+      printf("socket");
+      return ;
+    }
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
-  sin.sin_addr.s_addr = INADDR_ANY;
-  if (bind(fd, (const struct sockaddr*)&sin, sizeof(sin)) == -1)
+  sin.sin_addr.s_addr = inet_addr(ip);
+  if (connect(fd, (const struct sockaddr*)&sin, sizeof(sin)) == -1)
     {
+      printf("connect\n");
+      printf("Error: %s\n", strerror(errno));
       close(fd);
       return ;
     }
-  if ((cs = listen(fd, 1)) == -1)
-    {
-      close(fd);
-      return ;
-    }
-  accept_client(fd, cs, &sin);
+  write(fd, "Salut", 5);
   close(fd);
 }
 
@@ -66,12 +49,12 @@ int			main(int ac, char **av)
 {
   int			port;
   
-  if (ac != 2)
+  if (ac != 3)
     {
-      printf("Usage: ./serveur port\n");
+      printf("Usage: ./client ip port\n");
       return (EXIT_FAILURE);
     }
-  port = atoi(av[1]);
-  create_socket(port);
+  port = atoi(av[2]);
+  create_socket(av[1], port);
   return (EXIT_SUCCESS);
 }

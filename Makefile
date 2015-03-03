@@ -5,10 +5,12 @@
 ## Login   <amstuta@epitech.net>
 ##
 ## Started on  Tue Mar  3 15:19:22 2015 arthur
-## Last update Tue Mar  3 16:06:56 2015 arthur
+## Last update Tue Mar  3 16:21:51 2015 arthur
 ##
 
 CC	= gcc
+
+CFLAGS	= -Wall -Wextra -Werror
 
 RM	= rm -f
 

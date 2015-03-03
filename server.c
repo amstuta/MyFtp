@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Tue Mar  3 16:03:37 2015 arthur
+** Last update Tue Mar  3 16:22:20 2015 arthur
 */
 
 #include <stdlib.h>
@@ -18,7 +18,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-void			accept_client(int fd, int cs, struct sockaddr_in *sin)
+void			accept_client(int fd, int cs)
 {
   char			*ip;
   struct sockaddr_in	sin_c;
@@ -58,7 +58,7 @@ void			create_socket(int port)
       close(fd);
       return ;
     }
-  accept_client(fd, cs, &sin);
+  accept_client(fd, cs);
   close(fd);
 }
 
