@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Tue Mar  3 16:41:29 2015 arthur
+** Last update Thu Mar  5 20:51:51 2015 arthur
 */
 
 #include <stdlib.h>
@@ -22,22 +22,15 @@ void			create_socket(char *ip, int port)
   int			fd;
   struct protoent	*pe;
   struct sockaddr_in	sin;
-  
-  errno = 0;
 
   pe = getprotobyname("TCP");
   if ((fd = socket(AF_INET, SOCK_STREAM, pe->p_proto)) == -1)
-    {
-      printf("socket");
-      return ;
-    }
+    return ;
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = inet_addr(ip);
-  if (connect(fd, (const struct sockaddr*)&sin, sizeof(sin)) == -1)
+  if (connect(fd, (const struct sockaddr*)&sin, sizeof(sin)) == -1) // Erreur arch linux: connection refused
     {
-      printf("connect\n");
-      printf("Error: %s\n", strerror(errno));
       close(fd);
       return ;
     }
