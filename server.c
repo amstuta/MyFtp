@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Tue Mar  3 16:22:20 2015 arthur
+** Last update Sun Mar  8 19:09:41 2015 arthur
 */
 
 #include <stdlib.h>
@@ -17,10 +17,25 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <sys/wait.h>
+#include "server.h"
+
+#define LINE_SIZE 80
+
+void			read_cmd(int fd)
+{
+  char			*buf;
+
+  if ((buf = malloc(LINE_SIZE)) == NULL)
+    exit(EXIT_FAILURE);
+  if ((read(fd, buf, LINE_SIZE)) == -1)
+    exit(EXIT_FAILURE);
+  clean_cmd(buf);
+}
 
 void			accept_client(int fd, int cs)
 {
-  char			*ip;
+  //char			*ip;
   struct sockaddr_in	sin_c;
   int			c_len;
 
@@ -30,9 +45,10 @@ void			accept_client(int fd, int cs)
       printf("accept");
       return ;
     }
-  ip = inet_ntoa(sin_c.sin_addr);
-  write(cs, "Salut, toi!\nIP: ", 16);
-  write(cs, ip, strlen(ip));
+  read_cmd(cs);
+  //ip = inet_ntoa(sin_c.sin_addr);
+  //write(cs, "IP: ", 4);
+  //write(cs, ip, strlen(ip));
 }
 
 void			create_socket(int port)
@@ -59,7 +75,22 @@ void			create_socket(int port)
       return ;
     }
   accept_client(fd, cs);
-  close(fd);
+}
+
+void			create_process(int port)
+{
+  int			i;
+  int			child;
+
+  child = fork();
+  if (child == 0)
+    {
+      create_socket(port);
+    }
+  else
+    {
+      waitpid(child, &i, WUNTRACED | WCONTINUED);
+    }
 }
 
 int			main(int ac, char **av)
@@ -72,6 +103,7 @@ int			main(int ac, char **av)
       return (EXIT_FAILURE);
     }
   port = atoi(av[1]);
-  create_socket(port);
+  //create_socket(port);
+  create_process(port);
   return (EXIT_SUCCESS);
 }

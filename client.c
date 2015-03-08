@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Thu Mar  5 20:51:51 2015 arthur
+** Last update Sun Mar  8 19:11:10 2015 arthur
 */
 
 #include <stdlib.h>
@@ -13,11 +13,13 @@
 #include <stdio.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-
 #include <string.h>
-#include <errno.h>
+#include "client.h"
 
-void			create_socket(char *ip, int port)
+#define LINE_SIZE 80
+
+
+int			create_socket(char *ip, int port)
 {
   int			fd;
   struct protoent	*pe;
@@ -25,21 +27,39 @@ void			create_socket(char *ip, int port)
 
   pe = getprotobyname("TCP");
   if ((fd = socket(AF_INET, SOCK_STREAM, pe->p_proto)) == -1)
-    return ;
+    {
+      printf("Error: can't create socket\n");
+      exit(EXIT_FAILURE);
+    }
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = inet_addr(ip);
   if (connect(fd, (const struct sockaddr*)&sin, sizeof(sin)) == -1) // Erreur arch linux: connection refused
     {
+      printf("Error: can't connect to server\n");
       close(fd);
-      return ;
+      exit(EXIT_FAILURE);
     }
-  write(fd, "Salut", 5);
-  close(fd);
+  return (fd);
+}
+
+void			prompt(int fd)
+{
+  char			*buf;
+
+  if ((buf = malloc(LINE_SIZE + 1)) == NULL)
+    exit(EXIT_FAILURE);
+  write(1, " > ", 3);
+  while (read(0, buf, LINE_SIZE) != -1)
+    {
+      write(fd, buf, strlen(buf));
+      write(1, " > ", 3);
+    }
 }
 
 int			main(int ac, char **av)
 {
+  int			fd;
   int			port;
   
   if (ac != 3)
@@ -48,6 +68,8 @@ int			main(int ac, char **av)
       return (EXIT_FAILURE);
     }
   port = atoi(av[2]);
-  create_socket(av[1], port);
+  fd = create_socket(av[1], port);
+  prompt(fd);
+  close(fd);
   return (EXIT_SUCCESS);
 }
