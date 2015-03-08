@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Sun Mar  8 19:09:41 2015 arthur
+** Last update Sun Mar  8 21:08:41 2015 arthur
 */
 
 #include <stdlib.h>
@@ -27,10 +27,16 @@ void			read_cmd(int fd)
   char			*buf;
 
   if ((buf = malloc(LINE_SIZE)) == NULL)
-    exit(EXIT_FAILURE);
+    {
+      close(fd);
+      exit(EXIT_FAILURE);
+    }
   if ((read(fd, buf, LINE_SIZE)) == -1)
-    exit(EXIT_FAILURE);
-  clean_cmd(buf);
+    {
+      close(fd);
+      exit(EXIT_FAILURE);
+    }
+  clean_cmd(buf, fd);
 }
 
 void			accept_client(int fd, int cs)
@@ -45,10 +51,25 @@ void			accept_client(int fd, int cs)
       printf("accept");
       return ;
     }
-  read_cmd(cs);
+  while (1)
+    read_cmd(cs);
   //ip = inet_ntoa(sin_c.sin_addr);
-  //write(cs, "IP: ", 4);
-  //write(cs, ip, strlen(ip));
+}
+
+void			fork_proc(int fd, int cs)
+{
+  int			i;
+  int			child;
+
+  child = fork();
+  if (child == 0)
+    {
+      accept_client(fd, cs);
+    }
+  else
+    {
+      waitpid(child, &i, WUNTRACED | WCONTINUED);
+    }
 }
 
 void			create_socket(int port)
@@ -69,27 +90,14 @@ void			create_socket(int port)
       close(fd);
       return ;
     }
-  if ((cs = listen(fd, 1)) == -1)
+  while (1)
     {
-      close(fd);
-      return ;
-    }
-  accept_client(fd, cs);
-}
-
-void			create_process(int port)
-{
-  int			i;
-  int			child;
-
-  child = fork();
-  if (child == 0)
-    {
-      create_socket(port);
-    }
-  else
-    {
-      waitpid(child, &i, WUNTRACED | WCONTINUED);
+      if ((cs = listen(fd, 1)) == -1)
+	{
+	  close(fd);
+	  return ;
+	}
+      fork_proc(fd, cs);
     }
 }
 
@@ -103,7 +111,6 @@ int			main(int ac, char **av)
       return (EXIT_FAILURE);
     }
   port = atoi(av[1]);
-  //create_socket(port);
-  create_process(port);
+  create_socket(port);
   return (EXIT_SUCCESS);
 }
