@@ -5,12 +5,13 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar 10 17:26:34 2015 arthur
-** Last update Tue Mar 10 17:43:06 2015 arthur
+** Last update Tue Mar 10 17:55:38 2015 arthur
 */
 
 #include <sys/types.h>
 #include <dirent.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include "server.h"
@@ -34,4 +35,15 @@ int		ls()
 int		cd(char *arg)
 {
   return (chdir(arg));
+}
+
+int		pwd()
+{
+  char		*wd;
+
+  wd = getenv("PWD");
+  if (!wd)
+    return (-1);
+  printf("Current path: %s\n", wd);
+  return (0);
 }

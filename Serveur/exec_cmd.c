@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:10:36 2015 arthur
-** Last update Tue Mar 10 17:46:24 2015 arthur
+** Last update Tue Mar 10 17:53:14 2015 arthur
 */
 
 #include <string.h>
@@ -22,6 +22,8 @@ void	execute_cmd(char *buf, char **args, int fd)
     ls();
   else if (!strcmp(buf, "cd"))
     cd(args[1]);
+  else if (!strcmp(buf, "pwd"))
+    pwd();
   write(fd, "Success\n", 8);
 }
 
