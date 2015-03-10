@@ -5,11 +5,13 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:47:04 2015 arthur
-** Last update Sun Mar  8 20:43:39 2015 arthur
+** Last update Tue Mar 10 11:41:11 2015 arthur
 */
 
 #ifndef SERVER_H_
 # define SERVER_H_
+
+# define LINE_SIZE 4096
 
 void	read_cmd(int);
 void	accept_client(int, int);
