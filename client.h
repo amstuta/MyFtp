@@ -5,11 +5,13 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 19:10:14 2015 arthur
-** Last update Sun Mar  8 19:10:59 2015 arthur
+** Last update Tue Mar 10 13:04:19 2015 arthur
 */
 
 #ifndef CLIENT_H_
 # define CLIENT_H_
+
+# define LINE_SIZE 4096
 
 int	create_socket(char *, int);
 void	prompt(int);

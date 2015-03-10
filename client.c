@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Sun Mar  8 21:19:51 2015 arthur
+** Last update Tue Mar 10 14:58:27 2015 arthur
 */
 
 #include <stdlib.h>
@@ -16,8 +16,27 @@
 #include <string.h>
 #include "client.h"
 
-#define LINE_SIZE 80
-
+int			auth_to_server(int fd)
+{
+  char			tmp[LINE_SIZE];
+  
+  if (read(fd, tmp, LINE_SIZE) == -1)
+    return (-1);
+  if (strcmp(tmp, "220"))
+    return (-1);
+  write(fd, "USER Anonymous\n\r", 16);
+  if (read(fd, tmp, LINE_SIZE) == -1)
+    return (-1);
+  if (strcmp(tmp, "331"))
+    return (-1);
+  write(fd, "PASS \n\r", 7);
+  if (read(fd, tmp, LINE_SIZE) == -1)
+    return (-1);
+  if (strcmp(tmp, "230"))
+    return (-1);
+  // reste CWD && CDUP
+  return (0);
+}
 
 int			create_socket(char *ip, int port)
 {
@@ -77,7 +96,8 @@ int			main(int ac, char **av)
     }
   port = atoi(av[2]);
   fd = create_socket(av[1], port);
-  prompt(fd);
+  if (auth_to_server(fd) != -1)
+    prompt(fd);
   close(fd);
   return (EXIT_SUCCESS);
 }

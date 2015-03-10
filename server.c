@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Tue Mar 10 11:51:01 2015 arthur
+** Last update Tue Mar 10 13:59:08 2015 arthur
 */
 
 #include <stdlib.h>
@@ -23,7 +23,6 @@
 void			read_cmd(int fd)
 {
   char			buf[LINE_SIZE];
-
   
   if ((read(fd, buf, LINE_SIZE)) == -1)
     {
@@ -35,24 +34,23 @@ void			read_cmd(int fd)
 
 void			fork_proc(int cs)
 {
-  int			i;
   int			child;
 
   child = fork();
   if (child == 0)
     {
+      if (check_client(cs) == -1)
+	{
+	  close(cs);
+	  return ;
+	}
       while (1)
 	read_cmd(cs);
-    }
-  else
-    {
-      waitpid(child, &i, WUNTRACED | WCONTINUED);
     }
 }
 
 void			accept_client(int fd, int cs)
 {
-  //char			*ip;
   struct sockaddr_in	sin_c;
   int			c_len;
 
@@ -60,13 +58,10 @@ void			accept_client(int fd, int cs)
   while (1)
     {
       if ((cs = accept(fd, (struct sockaddr*)&sin_c, (socklen_t*)&c_len)) == -1)
-	{
-	  printf("accept");
-	  return ;
-	}
+	return ;
       fork_proc(cs);
     }
-  //ip = inet_ntoa(sin_c.sin_addr);
+  //char *ip = inet_ntoa(sin_c.sin_addr);
 }
 
 void			create_socket(int port)
