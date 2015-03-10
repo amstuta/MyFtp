@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:10:36 2015 arthur
-** Last update Sun Mar  8 21:15:45 2015 arthur
+** Last update Tue Mar 10 17:46:24 2015 arthur
 */
 
 #include <string.h>
@@ -18,23 +18,11 @@
 
 void	execute_cmd(char *buf, char **args, int fd)
 {
-  pid_t	child;
-  int	status;
-
-  if ((child = fork()) == -1)
-    exit(EXIT_FAILURE);
-  if (child == 0)
-    {
-      if (!check_cmd(buf))
-	write(fd, "Error  \n", 8);
-      else
-	{
-	  write(fd, "Success\n", 8);
-	  execvp(buf, args);
-	}
-    }
-  else
-    waitpid(child, &status, WUNTRACED | WCONTINUED);
+  if (!strcmp(buf, "ls"))
+    ls();
+  else if (!strcmp(buf, "cd"))
+    cd(args[1]);
+  write(fd, "Success\n", 8);
 }
 
 int	get_count(char *buf)
