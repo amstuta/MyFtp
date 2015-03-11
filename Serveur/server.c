@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Wed Mar 11 14:34:04 2015 arthur
+** Last update Wed Mar 11 18:09:22 2015 arthur
 */
 
 #include <stdlib.h>
@@ -19,7 +19,7 @@
 #include <netdb.h>
 #include "server.h"
 
-void			read_cmd(int fd)
+void			read_cmd(int fd, char *home)
 {
   int			rd;
   char			buf[LINE_SIZE];
@@ -30,14 +30,17 @@ void			read_cmd(int fd)
       exit(EXIT_FAILURE);
     }
   buf[rd] = 0;
-  clean_cmd(buf, fd);
+  clean_cmd(buf, fd, home);
 }
 
 void			fork_proc(int cs)
 {
   int			child;
+  char			pwd[LINE_SIZE];
 
   if ((child = fork()) == -1)
+    return ;
+  if (!getcwd(pwd, LINE_SIZE))
     return ;
   if (child == 0)
     {
@@ -47,7 +50,7 @@ void			fork_proc(int cs)
 	  return ;
 	}
       while (1)
-	read_cmd(cs);
+	read_cmd(cs, pwd);
     }
 }
 
