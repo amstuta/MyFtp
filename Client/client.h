@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 19:10:14 2015 arthur
-** Last update Wed Mar 11 11:17:53 2015 arthur
+** Last update Wed Mar 11 14:48:32 2015 arthur
 */
 
 #ifndef CLIENT_H_
@@ -16,5 +16,11 @@
 int	create_socket(char *, int);
 void	prompt(int);
 int	check_cmd(char *);
+char	*real_cmd(char *);
+char	**clean_cmd(char *);
+int	get_count(char *);
+void	fill_tab(char ***, char *);
+char	**split_args(char *);
+char	*wtos(char **);
 
 #endif

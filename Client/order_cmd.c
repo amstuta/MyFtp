@@ -5,35 +5,13 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:10:36 2015 arthur
-** Last update Wed Mar 11 14:35:28 2015 arthur
+** Last update Wed Mar 11 14:52:51 2015 arthur
 */
 
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <sys/wait.h>
-#include "server.h"
-
-void	execute_cmd(char *buf, char **args, int fd)
-{
-  if (!strcmp(buf, "LIST"))
-    {
-      ls();
-      write(fd, "Success\n", 8);
-    }
-  else if (!strcmp(buf, "CWD"))
-    {
-      cd(args[1]);
-      write(fd, "Success\n", 8);
-    }
-  else if (!strncmp(buf, "PWD", 3))
-    {
-      pwd();
-      write(fd, "Success\n", 8);
-    }
-  else
-    write(fd, "Failure\n", 8);
-}
+#include "client.h"
 
 int	get_count(char *buf)
 {
@@ -103,18 +81,28 @@ char	**split_args(char *buf)
   return (res);
 }
 
-void	clean_cmd(char *buf, int fd)
+char	*wtos(char **cmd)
 {
   int	i;
-  char	**args;
+  int	len;
+  char	*res;
 
-  i = 0;
-  while (buf[i])
+  i = len = 0;
+  while (cmd[i])
     {
-      if (buf[i] == '\n')
-	buf[i] = 0;
+      len += strlen(cmd[i]);
       ++i;
     }
-  args = split_args(buf);
-  execute_cmd((args != NULL) ? args[0] : buf, args, fd);
+  if ((res = malloc(len + 1)) == NULL)
+    return (NULL);
+  i = 1;
+  strcpy(res, cmd[0]);
+  while (cmd[i])
+    {
+      strcat(res, " ");
+      strcat(res, cmd[i]);
+      ++i;
+    }
+  res[len + 1] = 0;
+  return (res);
 }

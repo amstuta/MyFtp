@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Tue Mar 10 17:51:17 2015 arthur
+** Last update Wed Mar 11 14:34:04 2015 arthur
 */
 
 #include <stdlib.h>
@@ -17,18 +17,19 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#include <sys/wait.h>
 #include "server.h"
 
 void			read_cmd(int fd)
 {
+  int			rd;
   char			buf[LINE_SIZE];
   
-  if ((read(fd, buf, LINE_SIZE)) == -1)
+  if ((rd = read(fd, buf, LINE_SIZE)) == -1)
     {
       close(fd);
       exit(EXIT_FAILURE);
     }
+  buf[rd] = 0;
   clean_cmd(buf, fd);
 }
 
@@ -36,7 +37,8 @@ void			fork_proc(int cs)
 {
   int			child;
 
-  child = fork();
+  if ((child = fork()) == -1)
+    return ;
   if (child == 0)
     {
       if (check_client(cs) == -1)
@@ -61,7 +63,6 @@ void			accept_client(int fd, int cs)
 	return ;
       fork_proc(cs);
     }
-  //char *ip = inet_ntoa(sin_c.sin_addr);
 }
 
 void			create_socket(int port)

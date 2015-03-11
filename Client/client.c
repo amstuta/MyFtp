@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Tue Mar 10 14:58:27 2015 arthur
+** Last update Wed Mar 11 14:51:57 2015 arthur
 */
 
 #include <stdlib.h>
@@ -65,21 +65,22 @@ int			create_socket(char *ip, int port)
 void			prompt(int fd)
 {
   int			rd;
-  char			*buf;
-  char			*rep;
+  char			**cmd_args;
+  char			buf[LINE_SIZE];
+  char			rep[LINE_SIZE];
 
-  if ((buf = malloc(LINE_SIZE + 1)) == NULL)
-    exit(EXIT_FAILURE);
-  if ((rep = malloc(LINE_SIZE + 1)) == NULL)
-    exit(EXIT_FAILURE);
   write(1, " > ", 3);
   while (read(0, buf, LINE_SIZE) != -1)
     {
-      write(fd, buf, strlen(buf));
-      if ((rd = read(fd, rep, LINE_SIZE)) == -1)
-	return ;
-      rep[rd] = 0;
-      write(1, rep, strlen(rep));
+      if ((cmd_args = clean_cmd(buf)) != NULL)
+	{
+	  printf("Cmd: -%s-\n", wtos(cmd_args));
+	  write(fd, wtos(cmd_args), strlen(wtos(cmd_args)));
+	  if ((rd = read(fd, rep, LINE_SIZE)) == -1)
+	    return ;
+	  rep[rd] = 0;
+	  write(1, rep, strlen(rep));
+	}
       write(1, " > ", 3);
     }
 }
