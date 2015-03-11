@@ -5,13 +5,14 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:10:36 2015 arthur
-** Last update Wed Mar 11 14:35:28 2015 arthur
+** Last update Wed Mar 11 15:19:12 2015 arthur
 */
 
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <stdio.h>
 #include "server.h"
 
 void	execute_cmd(char *buf, char **args, int fd)
@@ -35,86 +36,10 @@ void	execute_cmd(char *buf, char **args, int fd)
     write(fd, "Failure\n", 8);
 }
 
-int	get_count(char *buf)
-{
-  int	count;
-
-  count = 0;
-  while (*buf)
-    {
-      if (*buf == ' ')
-	++count;
-      ++buf;
-    }
-  return (count);
-}
-
-void	fill_tab(char ***res, char *buf)
-
-{
-  int	i;
-  int	j;
-  int	k;
-  
-  i = 0;
-  j = 0;
-  k = 0;
-  while (buf[i])
-    {
-      if (buf[i] == ' ')
-	{
-	  (*res)[j][k] = 0;
-	  k = 0;
-	  ++j;
-	}
-      else
-	{
-	  (*res)[j][k] = buf[i];
-	  ++k;
-	}
-      ++i;
-    }
-  (*res)[j][k] = 0;
-  (*res)[++j] = NULL;
-}
-
-char	**split_args(char *buf)
-{
-  int	i;
-  int	count;
-  char	**res;
-
-  i = 0;
-  count = get_count(buf);
-  if ((res = malloc(sizeof(char*) * (count + 2))) == NULL)
-    exit(EXIT_FAILURE);
-  if (count == 0)
-    {
-      res[0] = strdup(buf);
-      res[1] = NULL;
-      return (res);
-    }
-  while (i < count + 1)
-    {
-      res[i] = malloc(strlen(buf));
-      ++i;
-    }
-  fill_tab(&res, buf);
-  return (res);
-}
-
 void	clean_cmd(char *buf, int fd)
 {
-  int	i;
   char	**args;
 
-  i = 0;
-  while (buf[i])
-    {
-      if (buf[i] == '\n')
-	buf[i] = 0;
-      ++i;
-    }
-  args = split_args(buf);
+  args = create_word_tab(buf);
   execute_cmd((args != NULL) ? args[0] : buf, args, fd);
 }

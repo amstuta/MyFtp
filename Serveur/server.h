@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:47:04 2015 arthur
-** Last update Tue Mar 10 17:52:56 2015 arthur
+** Last update Wed Mar 11 15:12:02 2015 arthur
 */
 
 #ifndef SERVER_H_
@@ -18,14 +18,12 @@ void	read_cmd(int);
 void	accept_client(int, int);
 void	create_socket(int);
 void	execute_cmd(char *, char **, int);
-int	get_count(char *);
-void	fill_tab(char ***, char *);
-char	**split_args(char *);
 void	clean_cmd(char *, int);
 int	check_cmd(char *);
 int	check_client(int);
 int	ls();
 int	pwd();
 int	cd(char *);
+char	**create_word_tab(char *);
 
 #endif
