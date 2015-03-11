@@ -5,7 +5,7 @@
 ## Login   <amstuta@epitech.net>
 ##
 ## Started on  Tue Mar  3 15:19:22 2015 arthur
-## Last update Tue Mar 10 17:38:52 2015 arthur
+## Last update Wed Mar 11 11:19:01 2015 arthur
 ##
 
 CC	= gcc
@@ -22,7 +22,8 @@ FOLD_S	= Serveur
 
 FOLD_C	= Client
 
-SRCS_C	= $(FOLD_C)/client.c
+SRCS_C	= $(FOLD_C)/client.c \
+	  $(FOLD_C)/check_cmd.c
 
 SRCS_S	= $(FOLD_S)/server.c \
 	  $(FOLD_S)/exec_cmd.c \
