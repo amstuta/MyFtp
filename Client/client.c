@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Wed Mar 11 14:51:57 2015 arthur
+** Last update Wed Mar 11 18:04:40 2015 arthur
 */
 
 #include <stdlib.h>
@@ -74,12 +74,12 @@ void			prompt(int fd)
     {
       if ((cmd_args = clean_cmd(buf)) != NULL)
 	{
-	  printf("Cmd: -%s-\n", wtos(cmd_args));
 	  write(fd, wtos(cmd_args), strlen(wtos(cmd_args)));
 	  if ((rd = read(fd, rep, LINE_SIZE)) == -1)
 	    return ;
 	  rep[rd] = 0;
 	  write(1, rep, strlen(rep));
+	  write(1, "\n", 1);
 	}
       write(1, " > ", 3);
     }
