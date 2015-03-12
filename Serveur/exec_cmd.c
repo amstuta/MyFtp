@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:10:36 2015 arthur
-** Last update Wed Mar 11 18:21:26 2015 arthur
+** Last update Thu Mar 12 11:53:20 2015 arthur
 */
 
 #include <string.h>
@@ -24,7 +24,7 @@ void	execute_cmd(char *buf, char **args, int fd, char *home)
   else if (!strncmp(buf, "PWD", 3))
     pwd(fd);
   else
-    write(fd, "Failure\n", 8);
+    write(fd, "Unknown command\n", 8);
 }
 
 void	clean_cmd(char *buf, int fd, char *home)

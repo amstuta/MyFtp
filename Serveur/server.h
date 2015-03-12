@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:47:04 2015 arthur
-** Last update Wed Mar 11 18:11:08 2015 arthur
+** Last update Thu Mar 12 12:19:05 2015 arthur
 */
 
 #ifndef SERVER_H_
@@ -24,6 +24,7 @@ int	check_client(int);
 void	ls(int);
 void	pwd(int);
 void	cd(char *, char *, int);
+char	*check_cd(char *, char *);
 char	**create_word_tab(char *);
 
 #endif

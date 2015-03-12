@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 20:40:00 2015 arthur
-** Last update Wed Mar 11 14:25:06 2015 arthur
+** Last update Thu Mar 12 11:14:52 2015 arthur
 */
 
 #include <unistd.h>
@@ -21,8 +21,7 @@ int	check_client(int fd)
   memset(tmp, 0, LINE_SIZE);
   if (read(fd, tmp, LINE_SIZE) == -1)
     return (-1);
-  if (!strstr(tmp, "USER") || \
-      !strstr(tmp, "Anonymous\n\r"))
+  if (strncmp(tmp, "USER Anonymous", 14))
     {
       write(fd, ERROR, 3);
       return (-1);
@@ -31,12 +30,11 @@ int	check_client(int fd)
   memset(tmp, 0, LINE_SIZE);
   if (read(fd, tmp, LINE_SIZE) == -1)
     return (-1);
-  if (!strstr(tmp, "PASS"))
+  if (strncmp(tmp, "PASS ", 5))
     {
       write(fd, ERROR, 3);
       return (-1);
     }
   write(fd, "230", 3);
-  // Reste CWD && CDUP
   return (0);
 }

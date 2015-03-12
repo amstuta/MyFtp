@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar 10 17:26:34 2015 arthur
-** Last update Wed Mar 11 18:34:04 2015 arthur
+** Last update Thu Mar 12 12:18:10 2015 arthur
 */
 
 #include <sys/types.h>
@@ -39,23 +39,33 @@ void		ls(int fd)
   write(fd, res, strlen(res));
 }
 
+char		*check_cd(char *home, char *dest)
+{
+  char		*full_path;
+  char		pwd[LINE_SIZE];
+  
+  if (!(full_path = malloc(LINE_SIZE)))
+    return (NULL);
+  if (!getcwd(pwd, LINE_SIZE))
+    return (NULL);
+  strcpy(full_path, pwd);
+  if (!strcmp(home, full_path) && !strcmp(dest, ".."))
+    return (NULL);
+  return (full_path);
+}
+
 void		cd(char *arg, char *home, int fd)
 {
+  char		*full_path;
   char		res[LINE_SIZE];
-  char		pwd[LINE_SIZE];
-  char		full_path[LINE_SIZE];
 
-  // Norme + marche pas avec ..
-  if (!getcwd(pwd, LINE_SIZE))
-    return ;
-  strcpy(full_path, pwd);
-  strcat(full_path, "/");
-  strcat(full_path, arg);
-  if (!strstr(full_path, home))
+  if ((full_path = check_cd(home, arg)) == NULL)
     {
       write(fd, "You can't go there", 18);
       return ;
     }
+  strcat(full_path, "/");
+  strcat(full_path, arg);
   if (chdir(full_path) == -1)
     write(fd, "Couldn't change directory", 25);
   else
