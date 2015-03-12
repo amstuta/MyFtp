@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Thu Mar 12 16:52:20 2015 arthur
+** Last update Thu Mar 12 16:55:47 2015 arthur
 */
 
 #include <signal.h>
@@ -19,22 +19,22 @@
 
 static int		g_fd;
 
-int			auth_to_server(int fd)
+int			auth_to_server()
 {
   char			tmp[LINE_SIZE];
 
   memset(tmp, 0, LINE_SIZE);
-  if (read(fd, tmp, LINE_SIZE) == -1)
+  if (read(g_fd, tmp, LINE_SIZE) == -1)
     return (-1);
   if (strcmp(tmp, "220"))
     return (-1);
-  write(fd, "USER Anonymous\n\r", 16);
-  if (read(fd, tmp, LINE_SIZE) == -1)
+  write(g_fd, "USER Anonymous\n\r", 16);
+  if (read(g_fd, tmp, LINE_SIZE) == -1)
     return (-1);
   if (strcmp(tmp, "331"))
     return (-1);
-  write(fd, "PASS \n\r", 7);
-  if (read(fd, tmp, LINE_SIZE) == -1)
+  write(g_fd, "PASS \n\r", 7);
+  if (read(g_fd, tmp, LINE_SIZE) == -1)
     return (-1);
   if (strcmp(tmp, "230"))
     return (-1);
@@ -65,7 +65,7 @@ int			create_socket(char *ip, int port)
   return (fd);
 }
 
-void			prompt(int fd)
+void			prompt()
 {
   int			rd;
   char			**cmd_args;
@@ -77,8 +77,8 @@ void			prompt(int fd)
     {
       if ((cmd_args = clean_cmd(buf)) != NULL)
 	{
-	  write(fd, wtos(cmd_args), strlen(wtos(cmd_args)));
-	  if ((rd = read(fd, rep, LINE_SIZE)) == -1)
+	  write(g_fd, wtos(cmd_args), strlen(wtos(cmd_args)));
+	  if ((rd = read(g_fd, rep, LINE_SIZE)) == -1)
 	    return ;
 	  rep[rd] = 0;
 	  write(1, rep, strlen(rep));
@@ -109,8 +109,8 @@ int			main(int ac, char **av)
   fd = create_socket(av[1], port);
   g_fd = fd;
   signal(SIGINT, exit_signal);  
-  if (auth_to_server(fd) != -1)
-    prompt(fd);
-  close(fd);
+  if (auth_to_server() != -1)
+    prompt();
+  close(g_fd);
   return (EXIT_SUCCESS);
 }
