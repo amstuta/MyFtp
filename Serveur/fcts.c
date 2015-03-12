@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar 10 17:26:34 2015 arthur
-** Last update Thu Mar 12 13:14:23 2015 arthur
+** Last update Thu Mar 12 17:23:24 2015 arthur
 */
 
 #include <sys/types.h>
@@ -29,9 +29,12 @@ void		ls(int fd)
       write(fd, "666 - Error: can't list files\r\n", 31);
       return ;
     }
+  // Write 150 puis open socket
+  strcpy(res, "150 - ");
   while ((rd = readdir(dir)))
     {
-      if (rd->d_name[0] != '.')
+      if (rd->d_name[0] != '.' &&
+	  (strlen(res) + strlen(rd->d_name) + 1 < LINE_SIZE))
 	{
 	  strcat(res, rd->d_name);
 	  strcat(res, " ");
