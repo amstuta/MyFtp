@@ -5,9 +5,10 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Thu Mar 12 13:34:06 2015 arthur
+** Last update Thu Mar 12 16:52:20 2015 arthur
 */
 
+#include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -15,6 +16,8 @@
 #include <netdb.h>
 #include <string.h>
 #include "client.h"
+
+static int		g_fd;
 
 int			auth_to_server(int fd)
 {
@@ -85,6 +88,13 @@ void			prompt(int fd)
     }
 }
 
+void			exit_signal(int sig)
+{
+  (void)sig;
+  close(g_fd);
+  exit(EXIT_SUCCESS);
+}
+
 int			main(int ac, char **av)
 {
   int			fd;
@@ -97,6 +107,8 @@ int			main(int ac, char **av)
     }
   port = atoi(av[2]);
   fd = create_socket(av[1], port);
+  g_fd = fd;
+  signal(SIGINT, exit_signal);  
   if (auth_to_server(fd) != -1)
     prompt(fd);
   close(fd);
