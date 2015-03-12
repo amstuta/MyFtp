@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Wed Mar 11 11:11:35 2015 arthur
-** Last update Thu Mar 12 13:42:07 2015 arthur
+** Last update Thu Mar 12 17:12:07 2015 arthur
 */
 
 #include <string.h>
@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include "client.h"
 
-char	**clean_cmd(char *cmd)
+char	**clean_cmd(char *cmd, int fd)
 {
   int	i;
   char	**res;
@@ -32,7 +32,7 @@ char	**clean_cmd(char *cmd)
     return (NULL);
   if (!check_cmd(res[0]))
     return (NULL);
-  res[0] = real_cmd(res[0]);
+  res[0] = real_cmd(res[0], fd);
   return (res);
 }
 
@@ -42,12 +42,13 @@ int     check_cmd(char *cmd)
       !strcmp(cmd, "cd") ||
       !strcmp(cmd, "get") ||
       !strcmp(cmd, "put") ||
-      !strcmp(cmd, "pwd"))
+      !strcmp(cmd, "pwd") ||
+      !strcmp(cmd, "quit"))
     return (1);
   return (0);
 }
 
-char	*real_cmd(char *cmd)
+char	*real_cmd(char *cmd, int fd)
 {
   char	*res;
 
@@ -62,5 +63,7 @@ char	*real_cmd(char *cmd)
     res = strdup("STOR ");
   else if (!strcmp(cmd, "pwd"))
     res = strdup("PWD\r\n");
+  else if (!strcmp(cmd, "quit"))
+    close_exit(fd);
   return (res);
 }

@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Thu Mar 12 16:55:47 2015 arthur
+** Last update Thu Mar 12 17:11:14 2015 arthur
 */
 
 #include <signal.h>
@@ -75,7 +75,7 @@ void			prompt()
   write(1, " > ", 3);
   while (read(0, buf, LINE_SIZE) != -1)
     {
-      if ((cmd_args = clean_cmd(buf)) != NULL)
+      if ((cmd_args = clean_cmd(buf, g_fd)) != NULL)
 	{
 	  write(g_fd, wtos(cmd_args), strlen(wtos(cmd_args)));
 	  if ((rd = read(g_fd, rep, LINE_SIZE)) == -1)
