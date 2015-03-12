@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Wed Mar 11 18:04:40 2015 arthur
+** Last update Thu Mar 12 13:34:06 2015 arthur
 */
 
 #include <stdlib.h>
@@ -19,7 +19,8 @@
 int			auth_to_server(int fd)
 {
   char			tmp[LINE_SIZE];
-  
+
+  memset(tmp, 0, LINE_SIZE);
   if (read(fd, tmp, LINE_SIZE) == -1)
     return (-1);
   if (strcmp(tmp, "220"))
@@ -34,7 +35,6 @@ int			auth_to_server(int fd)
     return (-1);
   if (strcmp(tmp, "230"))
     return (-1);
-  // reste CWD && CDUP
   return (0);
 }
 

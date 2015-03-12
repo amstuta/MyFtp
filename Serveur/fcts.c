@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar 10 17:26:34 2015 arthur
-** Last update Thu Mar 12 12:18:10 2015 arthur
+** Last update Thu Mar 12 13:14:23 2015 arthur
 */
 
 #include <sys/types.h>
@@ -22,10 +22,11 @@ void		ls(int fd)
   struct dirent	*rd;
   char		res[LINE_SIZE];
 
+  // Ouvrir new socket
   memset(res, 0, LINE_SIZE);
   if (!(dir = opendir(".")))
     {
-      write(fd, "Error: can't list files", 23);
+      write(fd, "666 - Error: can't list files\r\n", 31);
       return ;
     }
   while ((rd = readdir(dir)))
@@ -61,21 +62,21 @@ void		cd(char *arg, char *home, int fd)
 
   if ((full_path = check_cd(home, arg)) == NULL)
     {
-      write(fd, "You can't go there", 18);
+      write(fd, "666 - You can't go there", 26);
       return ;
     }
   strcat(full_path, "/");
   strcat(full_path, arg);
   if (chdir(full_path) == -1)
-    write(fd, "Couldn't change directory", 25);
+    write(fd, "666 - Couldn't change directory", 33);
   else
     {
       memset(res, 0, LINE_SIZE);
-      strcat(res, "New path: ");
-      if (strlen(full_path) < (LINE_SIZE - 10))
+      strcat(res, "250 - New path: ");
+      if (strlen(full_path) < (LINE_SIZE - 16))
 	strcat(res, full_path);
       else
-	strncat(res, full_path, LINE_SIZE - 10);
+	strncat(res, full_path, LINE_SIZE - 16);
       write(fd, res, strlen(res));
     }
 }
@@ -88,13 +89,13 @@ void		pwd(int fd)
   memset(res, 0, LINE_SIZE);
   if (!getcwd(pwd, LINE_SIZE))
     {
-      write(fd, "Error: can't get pwd", 20);
+      write(fd, "666 - Error: can't get pwd", 26);
       return ;
     }
-  strcat(res, "Current path: ");
-  if (strlen(pwd) + 14 < LINE_SIZE)
+  strcat(res, "257 - Current path: ");
+  if (strlen(pwd) + 20 < LINE_SIZE)
     strcat(res, pwd);
   else
-    strncat(res, pwd, strlen(pwd) - 14);
+    strncat(res, pwd, strlen(pwd) - 20);
   write(fd, res, strlen(res));
 }

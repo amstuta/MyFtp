@@ -5,13 +5,13 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:47:04 2015 arthur
-** Last update Thu Mar 12 12:19:05 2015 arthur
+** Last update Thu Mar 12 13:05:28 2015 arthur
 */
 
 #ifndef SERVER_H_
 # define SERVER_H_
 
-# define ERROR		"444"
+# define ERROR		"666"
 # define LINE_SIZE	4096
 
 void	read_cmd(int, char *);

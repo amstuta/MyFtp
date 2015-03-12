@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Wed Mar 11 11:11:35 2015 arthur
-** Last update Wed Mar 11 14:51:34 2015 arthur
+** Last update Thu Mar 12 13:42:07 2015 arthur
 */
 
 #include <string.h>
@@ -28,7 +28,7 @@ char	**clean_cmd(char *cmd)
 	}
       ++i;
     }
-  if (!(res = split_args(cmd)))
+  if (!(res = create_word_tab(cmd)))
     return (NULL);
   if (!check_cmd(res[0]))
     return (NULL);
