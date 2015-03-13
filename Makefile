@@ -5,7 +5,7 @@
 ## Login   <amstuta@epitech.net>
 ##
 ## Started on  Tue Mar  3 15:19:22 2015 arthur
-## Last update Thu Mar 12 17:15:16 2015 arthur
+## Last update Fri Mar 13 11:56:05 2015 arthur
 ##
 
 CC	= gcc
@@ -32,7 +32,8 @@ SRCS_S	= $(FOLD_S)/server.c \
 	  $(FOLD_S)/check.c \
 	  $(FOLD_S)/fcts.c \
 	  $(FOLD_S)/wordtab.c \
-	  $(FOLD_S)/exit.c
+	  $(FOLD_S)/exit.c \
+	  $(FOLD_S)/file.c
 
 OBJS_C	= $(SRCS_C:.c=.o)
 

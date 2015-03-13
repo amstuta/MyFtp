@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Thu Mar 12 17:11:14 2015 arthur
+** Last update Fri Mar 13 11:36:29 2015 arthur
 */
 
 #include <signal.h>
@@ -108,7 +108,7 @@ int			main(int ac, char **av)
   port = atoi(av[2]);
   fd = create_socket(av[1], port);
   g_fd = fd;
-  signal(SIGINT, exit_signal);  
+  signal(SIGINT, exit_signal);
   if (auth_to_server() != -1)
     prompt();
   close(g_fd);

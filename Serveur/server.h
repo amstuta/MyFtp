@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:47:04 2015 arthur
-** Last update Thu Mar 12 17:10:08 2015 arthur
+** Last update Fri Mar 13 11:54:46 2015 arthur
 */
 
 #ifndef SERVER_H_
@@ -13,6 +13,7 @@
 
 # define ERROR		"666"
 # define LINE_SIZE	4096
+# define DATA_PORT	43230
 
 void	read_cmd(int, char *);
 void	accept_client(int, int);
