@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Wed Mar 11 11:11:35 2015 arthur
-** Last update Thu Mar 12 17:12:07 2015 arthur
+** Last update Fri Mar 13 14:07:59 2015 arthur
 */
 
 #include <string.h>
@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include "client.h"
 
-char	**clean_cmd(char *cmd, int fd)
+char	**clean_cmd(char *cmd, int fd, char *ip)
 {
   int	i;
   char	**res;
@@ -33,6 +33,11 @@ char	**clean_cmd(char *cmd, int fd)
   if (!check_cmd(res[0]))
     return (NULL);
   res[0] = real_cmd(res[0], fd);
+  if (!strncmp(res[0], "RETR", 4) || !strncmp(res[0], "STOR", 4))
+    {
+      file_transfer(fd, res, ip);
+      return (NULL);
+    }
   return (res);
 }
 

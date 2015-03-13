@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Thu Mar 12 17:12:15 2015 arthur
-** Last update Thu Mar 12 17:16:48 2015 arthur
+** Last update Fri Mar 13 13:52:44 2015 arthur
 */
 
 #include <string.h>
@@ -22,5 +22,6 @@ void	close_exit(int fd)
     exit(EXIT_FAILURE);
   write(1, buf, strlen(buf));
   write(1, "\n", 1);
+  close(fd);
   exit(EXIT_SUCCESS);
 }
