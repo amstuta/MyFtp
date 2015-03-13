@@ -5,13 +5,28 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Wed Mar 11 11:11:35 2015 arthur
-** Last update Fri Mar 13 14:07:59 2015 arthur
+** Last update Fri Mar 13 16:20:54 2015 arthur
 */
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "client.h"
+
+char	**spec_cmd(char **res, int fd, char *ip)
+{
+  if (!strncmp(res[0], "RETR", 4) || !strncmp(res[0], "STOR", 4))
+    {
+      file_transfer(fd, res, ip);
+      return (NULL);
+    }
+  else if (!strncmp(res[0], "LIST", 4))
+    {
+      rec_ls(fd, ip, res);
+      return (NULL);
+    }
+  return (res);
+}
 
 char	**clean_cmd(char *cmd, int fd, char *ip)
 {
@@ -33,12 +48,7 @@ char	**clean_cmd(char *cmd, int fd, char *ip)
   if (!check_cmd(res[0]))
     return (NULL);
   res[0] = real_cmd(res[0], fd);
-  if (!strncmp(res[0], "RETR", 4) || !strncmp(res[0], "STOR", 4))
-    {
-      file_transfer(fd, res, ip);
-      return (NULL);
-    }
-  return (res);
+  return (spec_cmd(res, fd, ip));
 }
 
 int     check_cmd(char *cmd)

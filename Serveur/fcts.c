@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar 10 17:26:34 2015 arthur
-** Last update Thu Mar 12 17:23:24 2015 arthur
+** Last update Fri Mar 13 16:35:45 2015 arthur
 */
 
 #include <sys/types.h>
@@ -16,21 +16,29 @@
 #include <unistd.h>
 #include "server.h"
 
+int		send_ls(char *res)
+{
+  int		sfd;
+
+  if ((sfd = new_socket()) == -1)
+    return (-1);
+  write(sfd, res, strlen(res));
+  close(sfd);
+  return (0);
+}
+
 void		ls(int fd)
 {
   DIR		*dir;
   struct dirent	*rd;
   char		res[LINE_SIZE];
 
-  // Ouvrir new socket
   memset(res, 0, LINE_SIZE);
   if (!(dir = opendir(".")))
     {
       write(fd, "666 - Error: can't list files\r\n", 31);
       return ;
     }
-  // Write 150 puis open socket
-  strcpy(res, "150 - ");
   while ((rd = readdir(dir)))
     {
       if (rd->d_name[0] != '.' &&
@@ -40,7 +48,11 @@ void		ls(int fd)
 	  strcat(res, " ");
 	}
     }
-  write(fd, res, strlen(res));
+  write(fd, "150", 3);
+  if (send_ls(res) != -1)
+    write(fd, "226 - Success", 13);
+  else
+    write(fd, "666 - Error with data connection", 33);
 }
 
 char		*check_cd(char *home, char *dest)

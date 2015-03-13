@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:24:11 2015 arthur
-** Last update Fri Mar 13 14:35:05 2015 arthur
+** Last update Fri Mar 13 16:21:41 2015 arthur
 */
 
 #include <netdb.h>
@@ -29,7 +29,6 @@ int			new_server(char *ip)
   sin.sin_family = AF_INET;
   sin.sin_port = htons(DATA_PORT);
   sin.sin_addr.s_addr = inet_addr(ip);
-  printf("Ip: %s\n", ip);
   if (connect(fd, (const struct sockaddr*)&sin, sizeof(sin)) == -1)
     {
       printf("Error: can't connect to server\n");

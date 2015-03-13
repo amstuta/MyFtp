@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Fri Mar 13 15:34:09 2015 arthur
+** Last update Fri Mar 13 16:42:36 2015 arthur
 */
 
 #include <signal.h>
@@ -84,6 +84,11 @@ int			main(int ac, char **av)
       return (EXIT_FAILURE);
     }
   port = atoi(av[2]);
+  if (port == DATA_PORT)
+    {
+      printf("Error: port already used for datas\n");
+      return (EXIT_FAILURE);
+    }
   fd = create_socket(av[1], port);
   g_fd = fd;
   signal(SIGINT, exit_signal);

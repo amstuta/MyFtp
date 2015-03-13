@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:47:04 2015 arthur
-** Last update Fri Mar 13 14:18:23 2015 arthur
+** Last update Fri Mar 13 15:54:36 2015 arthur
 */
 
 #ifndef SERVER_H_
@@ -23,6 +23,7 @@ void	clean_cmd(char *, int, char *);
 int	check_cmd(char *);
 int	check_client(int);
 void	ls(int);
+int	send_ls(char *);
 void	pwd(int);
 void	cd(char *, char *, int);
 char	*check_cd(char *, char *);
