@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 11:37:17 2015 arthur
-** Last update Fri Mar 13 14:56:20 2015 arthur
+** Last update Fri Mar 13 15:13:03 2015 arthur
 */
 
 #include <sys/types.h>
@@ -68,7 +68,7 @@ void			receive_file(int fd, char *file)
       write(fd, "666 - Couldn't open data connection", 35);
       return ;
     }
-  if ((ffd = open(file, O_WRONLY | O_CREAT)) == -1)
+  if ((ffd = open(file, O_RDWR | O_CREAT, 0666)) == -1)
     {
       write(fd, "666 - Couldn't create file", 27);
       return ;
