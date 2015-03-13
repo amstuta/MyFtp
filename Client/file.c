@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:23:27 2015 arthur
-** Last update Fri Mar 13 14:43:31 2015 arthur
+** Last update Fri Mar 13 14:56:24 2015 arthur
 */
 
 #include <stdio.h>
@@ -47,6 +47,25 @@ void	send_file(int fd, int sfd, char **args)
   end_transfer(fd, sfd, ffd);
 }
 
+void	receive_file(int fd, int sfd, char **args)
+{
+  int	rd;
+  int	ffd;
+  char	buf[LINE_SIZE];
+
+  args[1] = "res.youhou";
+  if ((ffd = open(args[1], O_WRONLY | O_CREAT)) == -1)
+    return ;
+  memset(buf, 0, LINE_SIZE);
+  while ((rd = read(sfd, buf, LINE_SIZE)) > 0)
+    {
+      buf[rd] = 0;
+      write(ffd, buf, strlen(buf));
+      memset(buf, 0, LINE_SIZE);
+    }
+  end_transfer(fd, sfd, ffd);
+}
+
 void	file_transfer(int fd, char **args, char *ip)
 {
   int	rd;
@@ -63,4 +82,6 @@ void	file_transfer(int fd, char **args, char *ip)
     return ;
   if (!strncmp(args[0], "STOR", 4))
     send_file(fd, sfd, args);
+  else if (!strncmp(args[0], "RETR", 4))
+    receive_file(fd, sfd, args);
 }
