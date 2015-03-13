@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Fri Mar 13 11:55:40 2015 arthur
+** Last update Fri Mar 13 13:07:29 2015 arthur
 */
 
 #include <stdlib.h>
@@ -62,7 +62,8 @@ void			accept_client(int fd, int cs)
   c_len = sizeof(sin_c);
   while (1)
     {
-      if ((cs = accept(fd, (struct sockaddr*)&sin_c, (socklen_t*)&c_len)) == -1)
+      cs = accept(fd, (struct sockaddr*)&sin_c, (socklen_t*)&c_len);
+      if (cs == -1)
 	return ;
       fork_proc(cs);
     }

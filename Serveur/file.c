@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 11:37:17 2015 arthur
-** Last update Fri Mar 13 11:56:41 2015 arthur
+** Last update Fri Mar 13 13:13:01 2015 arthur
 */
 
 #include <sys/types.h>
@@ -14,35 +14,41 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <netdb.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
 #include "server.h"
 
-int			new_client(int fd, int cs)
-{
-  return (0);
+void			end_transfer(int fd, int sfd, int ffd)
+{ 
+  close(ffd);
+  close(sfd);
+  write(fd, "226 - File successfully transfered", 34);
 }
 
-void			new_socket()
+void			send_file(int fd, char *file)
 {
-  int			cs;
-  int			fd;
-  struct protoent	*pe;
-  struct sockaddr_in	sin;
-  
-  pe = getprotobyname("TCP");
-  if ((fd = socket(AF_INET, SOCK_STREAM, pe->p_proto)) == -1)
-    return ;
-  sin.sin_family = AF_INET;
-  sin.sin_port = htons(DATA_PORT);
-  sin.sin_addr.s_addr = INADDR_ANY;
-  if (bind(fd, (const struct sockaddr*)&sin, sizeof(sin)) == -1)
+  int			rd;
+  int			ffd;
+  int			sfd;
+  char			tmp[LINE_SIZE + 1];
+
+  if ((sfd = new_socket()) == -1)
     {
-      close(fd);
+      write(fd, "666 - Couldn't open data connection", 35);
       return ;
     }
-  if ((cs = listen(fd, 1)) == -1)
+  if ((ffd = open(file, O_RDONLY)) == -1)
     {
-      close(fd);
+      write(fd, "666 - Couldn't open file", 24);
       return ;
     }
-  new_client(fd, cs);
+  write(fd, "150", 3);
+  while ((rd = read(ffd, tmp, LINE_SIZE)) > 0)
+    {
+      tmp[rd] = 0;
+      write(sfd, tmp, strlen(tmp));
+      memset(tmp, 0, LINE_SIZE);
+    }
+  end_transfer(fd, sfd, ffd);
 }

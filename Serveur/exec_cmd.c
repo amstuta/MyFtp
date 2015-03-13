@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:10:36 2015 arthur
-** Last update Thu Mar 12 17:09:34 2015 arthur
+** Last update Fri Mar 13 13:12:39 2015 arthur
 */
 
 #include <string.h>
@@ -23,6 +23,8 @@ void	execute_cmd(char *buf, char **args, int fd, char *home)
     cd(args[1], home, fd);
   else if (!strncmp(buf, "PWD", 3))
     pwd(fd);
+  else if (!strncmp(buf, "RETR", 4))
+    send_file(fd, args[1]);
   else if (!strncmp(buf, "QUIT", 4))
     close_client(fd);
   else

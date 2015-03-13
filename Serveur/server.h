@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:47:04 2015 arthur
-** Last update Fri Mar 13 11:54:46 2015 arthur
+** Last update Fri Mar 13 13:09:21 2015 arthur
 */
 
 #ifndef SERVER_H_
@@ -28,5 +28,9 @@ void	cd(char *, char *, int);
 char	*check_cd(char *, char *);
 char	**create_word_tab(char *);
 void	close_client(int);
+void	send_file(int, char *);
+void	end_transfer(int, int, int);
+int	new_socket();
+int	accept_new_client(int, int);
 
 #endif
