@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Fri Mar 13 14:09:06 2015 arthur
+** Last update Fri Mar 13 14:44:17 2015 arthur
 */
 
 #include <signal.h>
@@ -73,7 +73,7 @@ void			prompt(char *ip)
   char			rep[LINE_SIZE];
 
   write(1, " > ", 3);
-  while (read(0, buf, LINE_SIZE) != -1)
+  while (read(0, buf, LINE_SIZE) > 0)
     {
       if ((cmd_args = clean_cmd(buf, g_fd, ip)) != NULL)
 	{

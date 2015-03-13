@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:23:27 2015 arthur
-** Last update Fri Mar 13 14:11:07 2015 arthur
+** Last update Fri Mar 13 14:43:31 2015 arthur
 */
 
 #include <stdio.h>
@@ -34,12 +34,8 @@ void	send_file(int fd, int sfd, char **args)
   int	rd;
   int	ffd;
   char	buf[LINE_SIZE];
-  
-  write(fd, wtos(args), strlen(wtos(args)));
-  if ((rd = read(fd, buf, LINE_SIZE)) == -1)
-    return ;
-  buf[rd] = 0;
-  if (strcmp(buf, "150") || ((ffd = open(args[1], O_RDONLY)) == -1))
+
+  if ((ffd = open(args[1], O_RDONLY)) == -1)
     return ;
   memset(buf, 0, LINE_SIZE);
   while ((rd = read(ffd, buf, LINE_SIZE)) > 0)
@@ -53,8 +49,16 @@ void	send_file(int fd, int sfd, char **args)
 
 void	file_transfer(int fd, char **args, char *ip)
 {
+  int	rd;
   int	sfd;
+  char	buf[LINE_SIZE];
 
+  write(fd, wtos(args), strlen(wtos(args)));
+  if ((rd = read(fd, buf, LINE_SIZE)) == -1)
+    return ;
+  buf[rd] = 0;
+  if (strcmp(buf, "150"))
+    return ;
   if ((sfd = new_server(ip)) == -1)
     return ;
   if (!strncmp(args[0], "STOR", 4))

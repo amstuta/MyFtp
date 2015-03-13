@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 11:37:17 2015 arthur
-** Last update Fri Mar 13 13:48:29 2015 arthur
+** Last update Fri Mar 13 14:39:17 2015 arthur
 */
 
 #include <sys/types.h>
@@ -60,17 +60,18 @@ void			receive_file(int fd, char *file)
   int			sfd;
   char			tmp[LINE_SIZE];
 
+  write(fd, "150", 3);
   if ((sfd = new_socket()) == -1)
     {
       write(fd, "666 - Couldn't open data connection", 35);
       return ;
     }
+  file = "receivedData.ooo";
   if ((ffd = open(file, O_WRONLY | O_CREAT)) == -1)
     {
       write(fd, "666 - Couldn't create file", 27);
       return ;
     }
-  write(fd, "150", 3);
   while ((rd = read(sfd, tmp, LINE_SIZE)) > 0)
     {
       tmp[rd] = 0;

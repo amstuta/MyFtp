@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:10:15 2015 arthur
-** Last update Fri Mar 13 13:13:18 2015 arthur
+** Last update Fri Mar 13 14:37:35 2015 arthur
 */
 
 #include <sys/types.h>
@@ -13,6 +13,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <netdb.h>
 #include "server.h"
 
@@ -23,6 +24,7 @@ int			accept_new_client(int fd, int cs)
 
   c_len = sizeof(sin_c);
   cs = accept(fd, (struct sockaddr*)&sin_c, (socklen_t*)&c_len);
+  printf("Accepted\n");
   if (cs == -1)
     return (-1);
   return (cs);

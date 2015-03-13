@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:47:04 2015 arthur
-** Last update Fri Mar 13 13:09:21 2015 arthur
+** Last update Fri Mar 13 14:18:23 2015 arthur
 */
 
 #ifndef SERVER_H_
@@ -32,5 +32,6 @@ void	send_file(int, char *);
 void	end_transfer(int, int, int);
 int	new_socket();
 int	accept_new_client(int, int);
+void	receive_file(int, char *);
 
 #endif
