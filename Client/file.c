@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:23:27 2015 arthur
-** Last update Fri Mar 13 14:56:24 2015 arthur
+** Last update Fri Mar 13 15:36:16 2015 arthur
 */
 
 #include <stdio.h>
@@ -53,7 +53,6 @@ void	receive_file(int fd, int sfd, char **args)
   int	ffd;
   char	buf[LINE_SIZE];
 
-  args[1] = "res.youhou";
   if ((ffd = open(args[1], O_WRONLY | O_CREAT)) == -1)
     return ;
   memset(buf, 0, LINE_SIZE);

@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 19:10:14 2015 arthur
-** Last update Fri Mar 13 14:11:32 2015 arthur
+** Last update Fri Mar 13 15:35:11 2015 arthur
 */
 
 #ifndef CLIENT_H_
@@ -24,7 +24,8 @@ int	count_word(char *);
 char	**fill_up_res(char **, char *, int, int);
 char	**create_word_tab(char *);
 void	exit_signal(int);
-int	auth_to_server();
+int	auth_to_server(int);
+int	check_user(int);
 void	close_exit(int);
 int	new_server(char *);
 void	end_transfer(int, int, int);

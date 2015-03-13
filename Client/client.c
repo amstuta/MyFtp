@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Fri Mar 13 15:26:48 2015 arthur
+** Last update Fri Mar 13 15:34:09 2015 arthur
 */
 
 #include <signal.h>
@@ -18,52 +18,6 @@
 #include "client.h"
 
 static int		g_fd;
-
-int			check_user()
-{
-  int			rd;
-  char			tmp[LINE_SIZE];
-  char			login[LINE_SIZE];
-
-  memset(tmp, 0, LINE_SIZE);
-  write(1, "Please enter your login: ", 25);
-  if ((rd = read(0, tmp, LINE_SIZE)) <= 0)
-    return (-1);
-  tmp[rd] = 0;
-  memset(login, 0, LINE_SIZE);
-  strcat(login, "USER ");
-  strcat(login, tmp);
-  strcat(login, "\r\n");
-  write(g_fd, login, strlen(login));
-  memset(tmp, 0, LINE_SIZE);
-  if (read(g_fd, tmp, LINE_SIZE) == -1)
-    return (-1);
-  if (strcmp(tmp, "331"))
-    {
-      write(1, "Wrong user, exiting...\n", 23);
-      return (-1);
-    }
-  return (0);
-}
-
-int			auth_to_server()
-{
-  char			tmp[LINE_SIZE];
-
-  memset(tmp, 0, LINE_SIZE);
-  if (read(g_fd, tmp, LINE_SIZE) == -1)
-    return (-1);
-  if (strcmp(tmp, "220"))
-    return (-1);
-  if (check_user() == -1)
-    return (-1);
-  write(g_fd, "PASS \n\r", 7);
-  if (read(g_fd, tmp, LINE_SIZE) == -1)
-    return (-1);
-  if (strcmp(tmp, "230"))
-    return (-1);
-  return (0);
-}
 
 int			create_socket(char *ip, int port)
 {
@@ -133,7 +87,7 @@ int			main(int ac, char **av)
   fd = create_socket(av[1], port);
   g_fd = fd;
   signal(SIGINT, exit_signal);
-  if (auth_to_server() != -1)
+  if (auth_to_server(fd) != -1)
     prompt(av[1]);
   close(g_fd);
   return (EXIT_SUCCESS);
