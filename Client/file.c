@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:23:27 2015 arthur
-** Last update Fri Mar 13 15:36:16 2015 arthur
+** Last update Fri Mar 13 19:41:05 2015 arthur
 */
 
 #include <stdio.h>
@@ -26,7 +26,8 @@ void	end_transfer(int fd, int sfd, int ffd)
   if ((rd = read(fd, buf, LINE_SIZE)) == -1)
     return ;
   buf[rd] = 0;
-  printf("%s\n", buf);
+  write(1, buf, strlen(buf));
+  write(1, "\n", 1);
 }
 
 void	send_file(int fd, int sfd, char **args)

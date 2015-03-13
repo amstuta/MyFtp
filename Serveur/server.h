@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:47:04 2015 arthur
-** Last update Fri Mar 13 15:54:36 2015 arthur
+** Last update Fri Mar 13 19:24:11 2015 arthur
 */
 
 #ifndef SERVER_H_

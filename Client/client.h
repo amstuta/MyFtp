@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 19:10:14 2015 arthur
-** Last update Fri Mar 13 16:21:06 2015 arthur
+** Last update Fri Mar 13 19:22:12 2015 arthur
 */
 
 #ifndef CLIENT_H_
