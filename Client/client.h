@@ -5,14 +5,13 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 19:10:14 2015 arthur
-** Last update Fri Mar 13 19:22:12 2015 arthur
+** Last update Sat Mar 14 12:38:39 2015 arthur
 */
 
 #ifndef CLIENT_H_
 # define CLIENT_H_
 
 # define LINE_SIZE	4096
-# define DATA_PORT	43230
 
 int	create_socket(char *, int);
 void	prompt(char *);
@@ -27,11 +26,12 @@ void	exit_signal(int);
 int	auth_to_server(int);
 int	check_user(int);
 void	close_exit(int);
-int	new_server(char *);
+int	new_server(char *, int);
+int	get_new_port(char *);
 void	end_transfer(int, int, int);
 void	send_file(int, int, char **);
 void	file_transfer(int, char **, char *);
-void	print_files(int);
+void	print_files(int, int);
 void	rec_ls(int, char *, char **);
 
 #endif

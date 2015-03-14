@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar 10 17:26:34 2015 arthur
-** Last update Sat Mar 14 11:56:56 2015 arthur
+** Last update Sat Mar 14 12:55:06 2015 arthur
 */
 
 #include <sys/types.h>
@@ -19,13 +19,17 @@
 int		send_ls(int fd, char *res)
 {
   int		sfd;
+  int		nport;
+  char		msg[LINE_SIZE];
 
-  if ((sfd = new_socket()) == -1)
+  nport = get_new_port();
+  snprintf(msg, LINE_SIZE, "150 - %d", nport);
+  write(fd, msg, strlen(msg));
+  if ((sfd = new_socket(nport)) == -1)
     {
       write(fd, "666 - Couldn't open socket", 26);
       return (-1);
     }
-  write(fd, "150 - Success", 13);
   write(sfd, res, strlen(res));
   close(sfd);
   return (0);

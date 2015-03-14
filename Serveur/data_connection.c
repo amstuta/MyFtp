@@ -5,16 +5,18 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:10:15 2015 arthur
-** Last update Sat Mar 14 11:44:52 2015 arthur
+** Last update Sat Mar 14 12:49:39 2015 arthur
 */
 
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <netdb.h>
+#include <time.h>
 #include "server.h"
 
 int			accept_new_client(int fd, int cs)
@@ -35,7 +37,7 @@ int			accept_new_client(int fd, int cs)
   return (cs);
 }
 
-int			new_socket()
+int			new_socket(int port)
 {
   int			cs;
   int			fd;
@@ -46,7 +48,7 @@ int			new_socket()
   if ((fd = socket(AF_INET, SOCK_STREAM, pe->p_proto)) == -1)
     return (-1);
   sin.sin_family = AF_INET;
-  sin.sin_port = htons(DATA_PORT);
+  sin.sin_port = htons(port);
   sin.sin_addr.s_addr = INADDR_ANY;
   if (bind(fd, (const struct sockaddr*)&sin, sizeof(sin)) == -1)
     {
@@ -59,4 +61,15 @@ int			new_socket()
       return (-1);
     }
   return (accept_new_client(fd, cs));
+}
+
+int			get_new_port()
+{
+  int			nport;
+
+  nport = g_port;
+  srand(time(0));
+  while (nport == g_port)
+    nport = rand() % 1024 + 1024;
+  return (nport);
 }

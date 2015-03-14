@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Fri Mar 13 19:22:24 2015 arthur
+** Last update Sat Mar 14 12:26:34 2015 arthur
 */
 
 #include <stdlib.h>
@@ -18,6 +18,8 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include "server.h"
+
+int			g_port;
 
 void			read_cmd(int fd, char *home)
 {
@@ -105,6 +107,7 @@ int			main(int ac, char **av)
       return (EXIT_FAILURE);
     }
   port = atoi(av[1]);
+  g_port = port;
   create_socket(port);
   return (EXIT_SUCCESS);
 }
