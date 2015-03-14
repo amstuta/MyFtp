@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "client.h"
 
 char	**spec_cmd(char **res, int fd, char *ip)
@@ -46,7 +47,10 @@ char	**clean_cmd(char *cmd, int fd, char *ip)
   if (!(res = create_word_tab(cmd)))
     return (NULL);
   if (!check_cmd(res[0]))
-    return (NULL);
+    {
+      write(1, "Error: unknown command\n", 23);
+      return (NULL);
+    }
   res[0] = real_cmd(res[0], fd);
   return (spec_cmd(res, fd, ip));
 }
