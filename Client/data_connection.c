@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:24:11 2015 arthur
-** Last update Sat Mar 14 13:01:46 2015 arthur
+** Last update Sat Mar 14 14:39:03 2015 arthur
 */
 
 #include <netdb.h>
@@ -23,7 +23,10 @@ int			new_server(char *ip, int nport)
 
   pe = getprotobyname("TCP");
   if ((fd = socket(AF_INET, SOCK_STREAM, pe->p_proto)) == -1)
-    return (-1);
+    {
+      perror("");
+      return (-1);
+    }
   sin.sin_family = AF_INET;
   sin.sin_port = htons(nport);
   sin.sin_addr.s_addr = inet_addr(ip);

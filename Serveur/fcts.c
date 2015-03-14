@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar 10 17:26:34 2015 arthur
-** Last update Sat Mar 14 12:55:06 2015 arthur
+** Last update Sat Mar 14 15:43:27 2015 arthur
 */
 
 #include <sys/types.h>
@@ -27,6 +27,7 @@ int		send_ls(int fd, char *res)
   write(fd, msg, strlen(msg));
   if ((sfd = new_socket(nport)) == -1)
     {
+      write(1, "ICI Err\n", 8);
       write(fd, "666 - Couldn't open socket", 26);
       return (-1);
     }
