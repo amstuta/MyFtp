@@ -21,9 +21,11 @@
 
 int			accept_new_client(int fd, int cs)
 {
+  int			yes;
   struct sockaddr_in	sin_c;
   int			c_len;
 
+  yes = 1;
   c_len = sizeof(sin_c);
   cs = accept(fd, (struct sockaddr*)&sin_c, (socklen_t*)&c_len);
   if (cs == -1)
@@ -31,6 +33,8 @@ int			accept_new_client(int fd, int cs)
       close(fd);
       return (-1);
     }
+  if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
+    perror(""); //
   return (cs);
 }
 
