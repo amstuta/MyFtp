@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:24:11 2015 arthur
-** Last update Fri Mar 13 18:42:25 2015 arthur
+** Last update Sat Mar 14 11:43:46 2015 arthur
 */
 
 #include <netdb.h>
@@ -32,6 +32,7 @@ int			new_server(char *ip)
   if (connect(fd, (const struct sockaddr*)&sin, sizeof(sin)) == -1)
     {
       printf("Error: can't connect to server\n");
+      perror("");
       close(fd);
       return (-1);
     }

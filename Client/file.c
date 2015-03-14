@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:23:27 2015 arthur
-** Last update Fri Mar 13 19:41:05 2015 arthur
+** Last update Sat Mar 14 12:00:09 2015 arthur
 */
 
 #include <stdio.h>
@@ -76,10 +76,14 @@ void	file_transfer(int fd, char **args, char *ip)
   if ((rd = read(fd, buf, LINE_SIZE)) == -1)
     return ;
   buf[rd] = 0;
-  if (strcmp(buf, "150"))
-    return ;
   if ((sfd = new_server(ip)) == -1)
     return ;
+  if (strcmp(buf, "150"))
+    {
+      write(1, buf, strlen(buf));
+      write(1, "\n", 1);
+      return ;
+    }
   if (!strncmp(args[0], "STOR", 4))
     send_file(fd, sfd, args);
   else if (!strncmp(args[0], "RETR", 4))

@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 11:37:17 2015 arthur
-** Last update Fri Mar 13 15:13:03 2015 arthur
+** Last update Sat Mar 14 11:59:15 2015 arthur
 */
 
 #include <sys/types.h>
@@ -26,8 +26,6 @@ void			end_transfer(int fd, int sfd, int ffd)
   write(fd, "226 - File successfully transfered", 34);
 }
 
-#include <stdio.h>
-
 void			send_file(int fd, char *file)
 {
   int			rd;
@@ -35,12 +33,12 @@ void			send_file(int fd, char *file)
   int			sfd;
   char			tmp[LINE_SIZE + 1];
 
-  write(fd, "150", 3);
   if ((sfd = new_socket()) == -1)
     {
       write(fd, "666 - Couldn't open data connection", 35);
       return ;
     }
+  write(fd, "150", 3);
   if ((ffd = open(file, O_RDONLY)) == -1)
     {
       write(fd, "666 - Couldn't open file", 24);
@@ -62,12 +60,12 @@ void			receive_file(int fd, char *file)
   int			sfd;
   char			tmp[LINE_SIZE];
 
-  write(fd, "150", 3);
   if ((sfd = new_socket()) == -1)
     {
       write(fd, "666 - Couldn't open data connection", 35);
       return ;
     }
+  write(fd, "150", 3);
   if ((ffd = open(file, O_RDWR | O_CREAT, 0666)) == -1)
     {
       write(fd, "666 - Couldn't create file", 27);

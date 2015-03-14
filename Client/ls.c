@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 16:01:06 2015 arthur
-** Last update Fri Mar 13 19:33:13 2015 arthur
+** Last update Sat Mar 14 11:55:00 2015 arthur
 */
 
 #include <string.h>
@@ -38,16 +38,19 @@ void	rec_ls(int fd, char *ip, char **args)
   char	buf[LINE_SIZE];
 
   write(fd, wtos(args), strlen(wtos(args)));
+  usleep(1000);
+  if ((sfd = new_server(ip)) == -1)
+    return ;
   if ((rd = read(fd, buf, LINE_SIZE)) <= 0)
     return ;
   buf[rd] = 0;
   if (strncmp(buf, "150", 3))
     {
       write(1, buf, strlen(buf));
+      write(1, "\n", 1);
       return ;
     }
-  if ((sfd = new_server(ip)) != -1)
-    print_files(sfd);
+  print_files(sfd);
   if ((rd = read(fd, buf, LINE_SIZE)) <= 0)
     return ;
   buf[rd] = 0;

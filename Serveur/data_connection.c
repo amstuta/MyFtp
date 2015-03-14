@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:10:15 2015 arthur
-** Last update Fri Mar 13 19:00:34 2015 arthur
+** Last update Sat Mar 14 11:44:52 2015 arthur
 */
 
 #include <sys/types.h>
@@ -19,10 +19,13 @@
 
 int			accept_new_client(int fd, int cs)
 {
+  //int			yes;
   struct sockaddr_in	sin_c;
   int			c_len;
 
+  //yes = 1;
   c_len = sizeof(sin_c);
+  //setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
   cs = accept(fd, (struct sockaddr*)&sin_c, (socklen_t*)&c_len);
   if (cs == -1)
     {
