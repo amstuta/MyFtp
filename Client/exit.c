@@ -15,11 +15,13 @@
 
 void	close_exit(int fd)
 {
+  int	rd;
   char	buf[LINE_SIZE];
   
   write(fd, "QUIT\r\n", 6);
-  if (read(fd, buf, LINE_SIZE) == -1)
+  if ((rd = read(fd, buf, LINE_SIZE)) == -1)
     exit(EXIT_FAILURE);
+  buf[rd] = 0;
   write(1, buf, strlen(buf));
   write(1, "\n", 1);
   close(fd);
