@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar 10 17:26:34 2015 arthur
-** Last update Mon Mar 16 12:24:42 2015 arthur
+** Last update Mon Mar 16 13:42:16 2015 arthur
 */
 
 #include <sys/types.h>
@@ -16,28 +16,14 @@
 #include <unistd.h>
 #include "server.h"
 
-int		send_ls(int fd, char *res)
+int		send_ls(char *res)
 {
   int		sfd;
-  //int		nport;
-  //char		msg[LINE_SIZE];
-
-  //nport = get_new_port();
-  //snprintf(msg, LINE_SIZE, "150 - %d", nport);
-  //write(fd, msg, strlen(msg));
-  write(fd, "150", 3);
-  /*
-  if ((sfd = new_socket(g_port - 1)) == -1)
-    {
-      write(1, "ICI Err\n", 8);
-      write(fd, "666 - Couldn't open socket", 26);
-      return (-1);
-      }*/
-
+  
+  write(g_fd, "150", 3);
   if ((sfd = accept_new_client()) == -1)
     {
-      write(1, "ICI Err\n", 8);
-      write(fd, "666 - Couldn't open socket", 26);
+      write(g_fd, "666 - Couldn't open socket", 26);
       return (-1);
     }
   
@@ -46,7 +32,7 @@ int		send_ls(int fd, char *res)
   return (0);
 }
 
-void		ls(int fd)
+void		ls()
 {
   DIR		*dir;
   struct dirent	*rd;
@@ -55,7 +41,7 @@ void		ls(int fd)
   memset(res, 0, LINE_SIZE);
   if (!(dir = opendir(".")))
     {
-      write(fd, "666 - Error: can't list files", 31);
+      write(g_fd, "666 - Error: can't list files", 31);
       return ;
     }
   while ((rd = readdir(dir)))
@@ -67,8 +53,8 @@ void		ls(int fd)
 	  strcat(res, " ");
 	}
     }
-  if (send_ls(fd, res) != -1)
-    write(fd, "226 - Success", 13);
+  if (send_ls(res) != -1)
+    write(g_fd, "226 - Success", 13);
 }
 
 char		*check_cd(char *home, char *dest)
@@ -86,20 +72,20 @@ char		*check_cd(char *home, char *dest)
   return (full_path);
 }
 
-void		cd(char *arg, char *home, int fd)
+void		cd(char *arg, char *home)
 {
   char		*full_path;
   char		res[LINE_SIZE];
 
   if ((full_path = check_cd(home, arg)) == NULL)
     {
-      write(fd, "666 - You can't go there", 26);
+      write(g_fd, "666 - You can't go there", 26);
       return ;
     }
   strcat(full_path, "/");
   strcat(full_path, arg);
   if (chdir(full_path) == -1)
-    write(fd, "666 - Couldn't change directory", 33);
+    write(g_fd, "666 - Couldn't change directory", 33);
   else
     {
       memset(res, 0, LINE_SIZE);
@@ -108,11 +94,11 @@ void		cd(char *arg, char *home, int fd)
 	strcat(res, full_path);
       else
 	strncat(res, full_path, LINE_SIZE - 16);
-      write(fd, res, strlen(res));
+      write(g_fd, res, strlen(res));
     }
 }
 
-void		pwd(int fd)
+void		pwd()
 {
   char		res[LINE_SIZE];
   char		pwd[LINE_SIZE];
@@ -120,7 +106,7 @@ void		pwd(int fd)
   memset(res, 0, LINE_SIZE);
   if (!getcwd(pwd, LINE_SIZE))
     {
-      write(fd, "666 - Error: can't get pwd", 26);
+      write(g_fd, "666 - Error: can't get pwd", 26);
       return ;
     }
   strcat(res, "257 - Current path: ");
@@ -128,5 +114,5 @@ void		pwd(int fd)
     strcat(res, pwd);
   else
     strncat(res, pwd, strlen(pwd) - 20);
-  write(fd, res, strlen(res));
+  write(g_fd, res, strlen(res));
 }

@@ -5,13 +5,14 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Mon Mar 16 13:19:35 2015 arthur
+** Last update Mon Mar 16 13:38:38 2015 arthur
 */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
+#include <signal.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -19,21 +20,23 @@
 #include <netdb.h>
 #include "server.h"
 
-void			read_cmd(int fd, char *home)
+int			g_fd;
+
+void			read_cmd(char *home)
 {
   int			rd;
   char			buf[LINE_SIZE];
   
-  if ((rd = read(fd, buf, LINE_SIZE)) == -1)
+  if ((rd = read(g_fd, buf, LINE_SIZE)) == -1)
     {
-      close(fd);
+      close(g_fd);
       exit(EXIT_FAILURE);
     }
   buf[rd] = 0;
-  clean_cmd(buf, fd, home);
+  clean_cmd(buf, home);
 }
 
-void			fork_proc(int cs)
+void			fork_proc()
 {
   int			child;
   char			pwd[LINE_SIZE];
@@ -44,13 +47,13 @@ void			fork_proc(int cs)
     return ;
   if (child == 0)
     {
-      if (check_client(cs) == -1)
+      if (check_client(g_fd) == -1)
 	{
-	  close(cs);
+	  close(g_fd);
 	  return ;
 	}
       while (1)
-	read_cmd(cs, pwd);
+	read_cmd(pwd);
     }
 }
 
@@ -66,7 +69,8 @@ void			accept_client(int fd, int cs, int port)
       cs = accept(fd, (struct sockaddr*)&sin_c, (socklen_t*)&c_len);
       if (cs == -1)
 	return ;
-      fork_proc(cs);
+      g_fd = cs;
+      fork_proc();
     }
 }
 
@@ -105,6 +109,7 @@ int			main(int ac, char **av)
       printf("Usage: ./serveur port\n");
       return (EXIT_FAILURE);
     }
+  signal(SIGINT, exit_signal);
   port = atoi(av[1]);
   create_socket(port);
   close(g_dfd);
