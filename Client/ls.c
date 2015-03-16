@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 16:01:06 2015 arthur
-** Last update Mon Mar 16 13:20:31 2015 arthur
+** Last update Mon Mar 16 14:08:22 2015 arthur
 */
 
 #include <string.h>
@@ -52,14 +52,6 @@ void	rec_ls(int fd, char *ip, char **args)
       write(1, "\n", 1);
       return ;
     }
-  if ((sfd = new_server(ip, g_dport)) == -1)
-    {
-      if ((rd = read(fd, buf, LINE_SIZE)) <= 0)
-	return ;
-      buf[rd] = 0;
-      write(1, buf, strlen(buf));
-      write(1, "\n", 1);
-    }
-  else
+  if ((sfd = new_server(ip, g_dport)) != -1)
     print_files(fd, sfd);
 }

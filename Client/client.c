@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Mon Mar 16 12:19:40 2015 arthur
+** Last update Mon Mar 16 14:04:53 2015 arthur
 */
 
 #include <signal.h>
@@ -29,7 +29,7 @@ int			create_socket(char *ip, int port)
   pe = getprotobyname("TCP");
   if ((fd = socket(AF_INET, SOCK_STREAM, pe->p_proto)) == -1)
     {
-      printf("Error: can't create socket\n");
+      perror("");
       exit(EXIT_FAILURE);
     }
   sin.sin_family = AF_INET;
@@ -37,7 +37,7 @@ int			create_socket(char *ip, int port)
   sin.sin_addr.s_addr = inet_addr(ip);
   if (connect(fd, (const struct sockaddr*)&sin, sizeof(sin)) == -1)
     {
-      printf("Error: can't connect to server\n");
+      perror("");
       close(fd);
       exit(EXIT_FAILURE);
     }
