@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:10:15 2015 arthur
-** Last update Sat Mar 14 14:38:08 2015 arthur
+** Last update Mon Mar 16 13:18:21 2015 arthur
 */
 
 #include <sys/types.h>
@@ -19,16 +19,19 @@
 #include <time.h>
 #include "server.h"
 
-int			accept_new_client(int fd, int cs)
+int			g_dfd;
+
+int			accept_new_client()
 {
+  int			cs;
   struct sockaddr_in	sin_c;
   int			c_len;
 
   c_len = sizeof(sin_c);
-  cs = accept(fd, (struct sockaddr*)&sin_c, (socklen_t*)&c_len);
+  cs = accept(g_dfd, (struct sockaddr*)&sin_c, (socklen_t*)&c_len);
   if (cs == -1)
     {
-      close(fd);
+      close(g_dfd);
       return (-1);
     }
   return (cs);
@@ -57,16 +60,6 @@ int			new_socket(int port)
       close(fd);
       return (-1);
     }
-  return (accept_new_client(fd, cs));
-}
-
-int			get_new_port()
-{
-  int			nport;
-
-  nport = g_port;
-  srand(time(0));
-  while (nport == g_port)
-    nport = rand() % 1024 + 1024;
-  return (nport);
+  g_dfd = fd;
+  return (0);
 }

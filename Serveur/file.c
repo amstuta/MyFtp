@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 11:37:17 2015 arthur
-** Last update Sat Mar 14 13:07:01 2015 arthur
+** Last update Mon Mar 16 13:17:22 2015 arthur
 */
 
 #include <sys/types.h>
@@ -27,28 +27,15 @@ void			end_transfer(int fd, int sfd, int ffd)
   write(fd, "226 - File successfully transfered", 34);
 }
 
-int			send_new_port(int fd)
-{
-  int			nport;
-  char			msg[LINE_SIZE];
-
-  nport = get_new_port();
-  memset(msg, 0, LINE_SIZE);
-  snprintf(msg, LINE_SIZE, "150 - %d", nport);
-  write(fd, msg, strlen(msg));
-  return (nport);
-}
-
 void			send_file(int fd, char *file)
 {
   int			rd;
   int			ffd;
   int			sfd;
-  int			nport;
   char			tmp[LINE_SIZE + 1];
 
-  nport = send_new_port(fd);
-  if ((sfd = new_socket(nport)) == -1)
+  write(fd, "150", 3);
+  if ((sfd = accept_new_client()) == -1)
     {
       write(fd, "666 - Couldn't open data connection", 35);
       return ;
@@ -73,11 +60,10 @@ void			receive_file(int fd, char *file)
   int			rd;
   int			ffd;
   int			sfd;
-  int			nport;
   char			tmp[LINE_SIZE];
 
-  nport = send_new_port(fd);
-  if ((sfd = new_socket(nport)) == -1)
+  write(fd, "150", 3);
+  if ((sfd = accept_new_client()) == -1)
     {
       write(fd, "666 - Couldn't open data connection", 35);
       return ;

@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar 10 17:26:34 2015 arthur
-** Last update Sat Mar 14 15:43:27 2015 arthur
+** Last update Mon Mar 16 12:24:42 2015 arthur
 */
 
 #include <sys/types.h>
@@ -19,18 +19,28 @@
 int		send_ls(int fd, char *res)
 {
   int		sfd;
-  int		nport;
-  char		msg[LINE_SIZE];
+  //int		nport;
+  //char		msg[LINE_SIZE];
 
-  nport = get_new_port();
-  snprintf(msg, LINE_SIZE, "150 - %d", nport);
-  write(fd, msg, strlen(msg));
-  if ((sfd = new_socket(nport)) == -1)
+  //nport = get_new_port();
+  //snprintf(msg, LINE_SIZE, "150 - %d", nport);
+  //write(fd, msg, strlen(msg));
+  write(fd, "150", 3);
+  /*
+  if ((sfd = new_socket(g_port - 1)) == -1)
+    {
+      write(1, "ICI Err\n", 8);
+      write(fd, "666 - Couldn't open socket", 26);
+      return (-1);
+      }*/
+
+  if ((sfd = accept_new_client()) == -1)
     {
       write(1, "ICI Err\n", 8);
       write(fd, "666 - Couldn't open socket", 26);
       return (-1);
     }
+  
   write(sfd, res, strlen(res));
   close(sfd);
   return (0);

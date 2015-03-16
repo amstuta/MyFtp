@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Sat Mar 14 12:26:34 2015 arthur
+** Last update Mon Mar 16 13:19:35 2015 arthur
 */
 
 #include <stdlib.h>
@@ -18,8 +18,6 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include "server.h"
-
-int			g_port;
 
 void			read_cmd(int fd, char *home)
 {
@@ -56,12 +54,13 @@ void			fork_proc(int cs)
     }
 }
 
-void			accept_client(int fd, int cs)
+void			accept_client(int fd, int cs, int port)
 {
   struct sockaddr_in	sin_c;
   int			c_len;
 
   c_len = sizeof(sin_c);
+  new_socket(port - 1);
   while (1)
     {
       cs = accept(fd, (struct sockaddr*)&sin_c, (socklen_t*)&c_len);
@@ -94,7 +93,7 @@ void			create_socket(int port)
       close(fd);
       return ;
     }
-  accept_client(fd, cs);
+  accept_client(fd, cs, port);
 }
 
 int			main(int ac, char **av)
@@ -107,7 +106,7 @@ int			main(int ac, char **av)
       return (EXIT_FAILURE);
     }
   port = atoi(av[1]);
-  g_port = port;
   create_socket(port);
+  close(g_dfd);
   return (EXIT_SUCCESS);
 }

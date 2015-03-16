@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:47:04 2015 arthur
-** Last update Sat Mar 14 12:47:07 2015 arthur
+** Last update Mon Mar 16 13:19:17 2015 arthur
 */
 
 #ifndef SERVER_H_
@@ -14,11 +14,12 @@
 # define ERROR		"666"
 # define LINE_SIZE	4096
 
-extern int	g_port;
+extern int	g_dfd;
 
 void	read_cmd(int, char *);
-void	accept_client(int, int);
+void	accept_client(int, int, int);
 void	create_socket(int);
+void	fork_proc(int);
 void	execute_cmd(char *, char **, int, char *);
 void	clean_cmd(char *, int, char *);
 int	check_cmd(char *);
@@ -33,8 +34,7 @@ void	close_client(int);
 void	send_file(int, char *);
 void	end_transfer(int, int, int);
 int	new_socket(int);
-int	get_new_port();
-int	accept_new_client(int, int);
+int	accept_new_client();
 void	receive_file(int, char *);
 
 #endif

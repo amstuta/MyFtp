@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Sat Mar 14 12:50:14 2015 arthur
+** Last update Mon Mar 16 12:19:40 2015 arthur
 */
 
 #include <signal.h>
@@ -18,6 +18,7 @@
 #include "client.h"
 
 static int		g_fd;
+int			g_dport;
 
 int			create_socket(char *ip, int port)
 {
@@ -86,6 +87,7 @@ int			main(int ac, char **av)
   port = atoi(av[2]);
   fd = create_socket(av[1], port);
   g_fd = fd;
+  g_dport = port - 1;
   signal(SIGINT, exit_signal);
   if (auth_to_server(fd) != -1)
     prompt(av[1]);

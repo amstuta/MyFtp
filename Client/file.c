@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:23:27 2015 arthur
-** Last update Sat Mar 14 13:09:54 2015 arthur
+** Last update Mon Mar 16 13:19:55 2015 arthur
 */
 
 #include <stdio.h>
@@ -70,7 +70,6 @@ void	file_transfer(int fd, char **args, char *ip)
 {
   int	rd;
   int	sfd;
-  int	nport;
   char	buf[LINE_SIZE];
 
   write(fd, wtos(args), strlen(wtos(args)));
@@ -83,8 +82,7 @@ void	file_transfer(int fd, char **args, char *ip)
       write(1, "\n", 1);
       return ;
     }
-  nport = get_new_port(buf);
-  if ((sfd = new_server(ip, nport)) == -1)
+  if ((sfd = new_server(ip, g_dport)) == -1)
     return ;
   if (!strncmp(args[0], "STOR", 4))
     send_file(fd, sfd, args);
