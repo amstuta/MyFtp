@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 18:47:04 2015 arthur
-** Last update Mon Mar 16 14:22:09 2015 arthur
+** Last update Mon Mar 16 15:03:22 2015 arthur
 */
 
 #ifndef SERVER_H_
@@ -39,4 +39,4 @@ int			accept_new_client();
 void			receive_file(char *);
 void			exit_signal(int);
 
-#endif
+#endif /* !SERVER_H_ */
