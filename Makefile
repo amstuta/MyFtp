@@ -5,7 +5,7 @@
 ## Login   <amstuta@epitech.net>
 ##
 ## Started on  Tue Mar  3 15:19:22 2015 arthur
-## Last update Fri Mar 13 16:09:20 2015 arthur
+## Last update Mon Mar 16 13:50:33 2015 arthur
 ##
 
 CC	= gcc
@@ -14,9 +14,9 @@ CFLAGS	= -Wall -Wextra -Werror
 
 RM	= rm -f
 
-CLIENT	= client
+NAME	= serveur
 
-SERVEUR	= serveur
+NAME2	= client
 
 FOLD_S	= Serveur
 
@@ -44,21 +44,21 @@ OBJS_C	= $(SRCS_C:.c=.o)
 
 OBJS_S	= $(SRCS_S:.c=.o)
 
-all:	$(SERVEUR) $(CLIENT)
+all:	$(NAME) $(NAME2)
 
-$(SERVEUR):	$(OBJS_S)
-		$(CC) $(OBJS_S) -o $(SERVEUR)
+$(NAME): $(OBJS_S)
+	 $(CC) $(OBJS_S) -o $(NAME)
 
-$(CLIENT):	$(OBJS_C)
-		$(CC) $(OBJS_C) -o $(CLIENT)
+$(NAME2):$(OBJS_C)
+	 $(CC) $(OBJS_C) -o $(NAME2)
 
 clean:
 	$(RM) $(OBJS_C)
 	$(RM) $(OBJS_S)
 
 fclean:	clean
-	$(RM) $(SERVEUR)
-	$(RM) $(CLIENT)
+	$(RM) $(NAME)
+	$(RM) $(NAME2)
 
 re:	fclean all
 

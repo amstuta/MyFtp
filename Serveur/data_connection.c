@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:10:15 2015 arthur
-** Last update Mon Mar 16 13:18:21 2015 arthur
+** Last update Mon Mar 16 14:01:28 2015 arthur
 */
 
 #include <sys/types.h>
@@ -37,6 +37,15 @@ int			accept_new_client()
   return (cs);
 }
 
+void			setopt(int fd)
+{
+  int yes;
+
+  yes = 1;
+  if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
+    perror("");
+}
+
 int			new_socket(int port)
 {
   int			cs;
@@ -50,6 +59,7 @@ int			new_socket(int port)
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = INADDR_ANY;
+  setopt(fd);
   if (bind(fd, (const struct sockaddr*)&sin, sizeof(sin)) == -1)
     {
       close(fd);

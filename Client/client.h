@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Sun Mar  8 19:10:14 2015 arthur
-** Last update Mon Mar 16 12:19:55 2015 arthur
+** Last update Mon Mar 16 14:00:13 2015 arthur
 */
 
 #ifndef CLIENT_H_
@@ -29,7 +29,6 @@ int	auth_to_server(int);
 int	check_user(int);
 void	close_exit(int);
 int	new_server(char *, int);
-int	get_new_port(char *);
 void	end_transfer(int, int, int);
 void	send_file(int, int, char **);
 void	file_transfer(int, char **, char *);

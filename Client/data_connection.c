@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:24:11 2015 arthur
-** Last update Sat Mar 14 14:39:03 2015 arthur
+** Last update Mon Mar 16 14:00:04 2015 arthur
 */
 
 #include <netdb.h>
@@ -37,22 +37,4 @@ int			new_server(char *ip, int nport)
       return (-1);
     }
   return (fd);
-}
-
-int			get_new_port(char *buf)
-{
-  int			i;
-  int			spaces;
-
-  i = 0;
-  spaces = 0;
-  while (buf[i])
-    {
-      if (buf[i] == ' ')
-	++spaces;
-      if (spaces == 2)
-	break;
-      ++i;
-    }
-  return (atoi(&buf[i + 1]));
 }
