@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 16:01:06 2015 arthur
-** Last update Mon Mar 16 14:08:22 2015 arthur
+** Last update Mon Mar 16 14:47:04 2015 arthur
 */
 
 #include <string.h>
@@ -14,6 +14,15 @@
 #include <stropts.h>
 #include <sys/ioctl.h>
 #include "client.h"
+
+void	write_rep(char *buf)
+{
+  if (!strncmp(buf, "666", 3))
+    {
+      write(1, buf, strlen(buf));
+      write(1, "\n", 1);
+    }
+}
 
 void	print_files(int fd, int sfd)
 {
@@ -32,8 +41,7 @@ void	print_files(int fd, int sfd)
   if ((rd = read(fd, buf, LINE_SIZE)) <= 0)
     return ;
   buf[rd] = 0;
-  write(1, buf, strlen(buf));
-  write(1, "\n", 1);
+  write_rep(buf);
 }
 
 void	rec_ls(int fd, char *ip, char **args)

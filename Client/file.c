@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:23:27 2015 arthur
-** Last update Mon Mar 16 13:19:55 2015 arthur
+** Last update Mon Mar 16 14:50:13 2015 arthur
 */
 
 #include <stdio.h>
@@ -36,8 +36,11 @@ void	send_file(int fd, int sfd, char **args)
   int	ffd;
   char	buf[LINE_SIZE];
 
-  if ((ffd = open(args[1], O_RDONLY)) == -1)
-    return ;
+  if ((ffd = open(args[0], O_RDONLY)) == -1)
+    {
+      perror("");
+      close(sfd);
+    }
   memset(buf, 0, LINE_SIZE);
   while ((rd = read(ffd, buf, LINE_SIZE)) > 0)
     {

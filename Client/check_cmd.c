@@ -5,11 +5,12 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Wed Mar 11 11:11:35 2015 arthur
-** Last update Fri Mar 13 16:20:54 2015 arthur
+** Last update Mon Mar 16 15:00:12 2015 arthur
 */
 
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <stdio.h>
 #include "client.h"
 
@@ -60,6 +61,8 @@ int     check_cmd(char *cmd)
       !strcmp(cmd, "pwd") ||
       !strcmp(cmd, "quit"))
     return (1);
+  else
+    write(1, "Error: unknown command\n", 23);
   return (0);
 }
 

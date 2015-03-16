@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 11:37:17 2015 arthur
-** Last update Mon Mar 16 13:43:24 2015 arthur
+** Last update Mon Mar 16 14:51:47 2015 arthur
 */
 
 #include <sys/types.h>
@@ -21,7 +21,7 @@
 #include "server.h"
 
 void			end_transfer(int sfd, int ffd)
-{ 
+{
   close(ffd);
   close(sfd);
   write(g_fd, "226 - File successfully transfered", 34);
