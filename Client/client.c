@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Mon Mar 16 14:04:53 2015 arthur
+** Last update Tue Mar 24 16:56:14 2015 Arthur Amstutz
 */
 
 #include <signal.h>
@@ -47,7 +47,6 @@ int			create_socket(char *ip, int port)
 void			prompt(char *ip)
 {
   int			rd;
-  //char			**cmd_args;
   char			*cmd;
   char			buf[LINE_SIZE];
   char			rep[LINE_SIZE];
@@ -57,7 +56,6 @@ void			prompt(char *ip)
     {
       if ((cmd = clean_cmd(buf, g_fd, ip)) != NULL)
 	{
-	  //write(g_fd, wtos(cmd_args), strlen(wtos(cmd_args)));
 	  write(g_fd, cmd, strlen(cmd));
 	  if ((rd = read(g_fd, rep, LINE_SIZE)) == -1)
 	    return ;
@@ -65,6 +63,7 @@ void			prompt(char *ip)
 	  write(1, rep, strlen(rep));
 	  write(1, "\n", 1);
 	}
+      memset(buf, 0, LINE_SIZE);
       write(1, " > ", 3);
     }
 }

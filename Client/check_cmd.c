@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Wed Mar 11 11:11:35 2015 arthur
-** Last update Mon Mar 16 15:00:12 2015 arthur
+** Last update Tue Mar 24 17:02:12 2015 Arthur Amstutz
 */
 
 #include <string.h>
@@ -17,12 +17,12 @@
 char	*spec_cmd(char *cmd, char **res, int fd, char *ip)
 {
   res[0] = real_cmd(res[0], fd);
-  if (!strncmp(res[0], "RETR", 4) || !strncmp(res[0], "STOR", 4))
+  if (!strncmp(cmd, "get", 3) || !strncmp(cmd, "put", 3))
     {
       file_transfer(fd, res, ip);
       return (NULL);
     }
-  else if (!strncmp(res[0], "LIST", 4))
+  else if (!strncmp(cmd, "ls", 2))
     {
       rec_ls(fd, ip, res);
       return (NULL);
