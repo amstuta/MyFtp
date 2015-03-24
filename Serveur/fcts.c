@@ -79,13 +79,13 @@ void		cd(char *arg, char *home)
 
   if ((full_path = check_cd(home, arg)) == NULL)
     {
-      write(g_fd, "666 - You can't go there", 26);
+      write(g_fd, "666 - You can't go there \r\n", 26);
       return ;
     }
   strcat(full_path, "/");
   strcat(full_path, arg);
   if (chdir(full_path) == -1)
-    write(g_fd, "666 - Couldn't change directory", 33);
+    write(g_fd, "666 - Couldn't change directory \r\n", 33);
   else
     {
       memset(res, 0, LINE_SIZE);
