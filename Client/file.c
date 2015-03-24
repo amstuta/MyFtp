@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Fri Mar 13 13:23:27 2015 arthur
-** Last update Mon Mar 16 14:50:13 2015 arthur
+** Last update Tue Mar 24 16:36:52 2015 Arthur Amstutz
 */
 
 #include <stdio.h>
@@ -79,6 +79,7 @@ void	file_transfer(int fd, char **args, char *ip)
   memset(full_buf, 0, LINE_SIZE);
   strcat(full_buf, wtos(args));
   strcat(full_buf, "\r\n");
+  write(1, full_buf, strlen(full_buf));
   write(fd, full_buf, strlen(full_buf));
   if ((rd = read(fd, buf, LINE_SIZE)) == -1)
     return ;
