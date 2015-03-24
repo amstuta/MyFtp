@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Mon Mar 16 15:27:23 2015 arthur
+** Last update Tue Mar 24 12:59:50 2015 Arthur Amstutz
 */
 
 #include <stdlib.h>
@@ -26,8 +26,7 @@ void			read_cmd(char *home)
 {
   int			rd;
   char			buf[LINE_SIZE];
-
-  memset(buf, 0, LINE_SIZE);
+  
   if ((rd = read(g_fd, buf, LINE_SIZE)) == -1)
     {
       close(g_fd);
@@ -42,14 +41,13 @@ void			fork_proc()
   int			child;
   char			pwd[LINE_SIZE];
 
-  memset(pwd, 0, LINE_SIZE);
   if ((child = fork()) == -1)
     return ;
   if (!getcwd(pwd, LINE_SIZE))
     return ;
   if (child == 0)
     {
-      if (check_client(g_fd) == -1)
+      if (check_client() == -1)
 	{
 	  close(g_fd);
 	  return ;
