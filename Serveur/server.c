@@ -5,7 +5,7 @@
 ** Login   <amstuta@epitech.net>
 **
 ** Started on  Tue Mar  3 15:17:53 2015 arthur
-** Last update Mon Mar 16 13:38:38 2015 arthur
+** Last update Tue Mar 24 12:59:50 2015 Arthur Amstutz
 */
 
 #include <stdlib.h>
@@ -47,7 +47,7 @@ void			fork_proc()
     return ;
   if (child == 0)
     {
-      if (check_client(g_fd) == -1)
+      if (check_client() == -1)
 	{
 	  close(g_fd);
 	  return ;
