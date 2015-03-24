@@ -14,8 +14,9 @@
 #include <stdio.h>
 #include "client.h"
 
-char	**spec_cmd(char **res, int fd, char *ip)
+char	*spec_cmd(char *cmd, char **res, int fd, char *ip)
 {
+  res[0] = real_cmd(res[0], fd);
   if (!strncmp(res[0], "RETR", 4) || !strncmp(res[0], "STOR", 4))
     {
       file_transfer(fd, res, ip);
@@ -26,10 +27,12 @@ char	**spec_cmd(char **res, int fd, char *ip)
       rec_ls(fd, ip, res);
       return (NULL);
     }
-  return (res);
+  if (!check_cmd(cmd))
+    return (NULL);
+  return (real_cmd(cmd, fd));
 }
 
-char	**clean_cmd(char *cmd, int fd, char *ip)
+char	*clean_cmd(char *cmd, int fd, char *ip)
 {
   int	i;
   char	**res;
@@ -46,10 +49,7 @@ char	**clean_cmd(char *cmd, int fd, char *ip)
     }
   if (!(res = create_word_tab(cmd)))
     return (NULL);
-  if (!check_cmd(res[0]))
-    return (NULL);
-  res[0] = real_cmd(res[0], fd);
-  return (spec_cmd(res, fd, ip));
+  return (spec_cmd(cmd, res, fd, ip));
 }
 
 int     check_cmd(char *cmd)
@@ -72,15 +72,15 @@ char	*real_cmd(char *cmd, int fd)
 
   res = NULL;
   if (!strcmp(cmd, "ls"))
-    res = strdup("LIST ");
+    res = strdup("LIST \r\n");
   else if (!strcmp(cmd, "cd"))
     res = strdup("CWD ");
   else if (!strcmp(cmd, "get"))
-    res = strdup("RETR ");
+    res = strdup("RETR");
   else if (!strcmp(cmd, "put"))
-    res = strdup("STOR ");
+    res = strdup("STOR");
   else if (!strcmp(cmd, "pwd"))
-    res = strdup("PWD\r\n");
+    res = strdup("PWD \r\n");
   else if (!strcmp(cmd, "quit"))
     close_exit(fd);
   return (res);

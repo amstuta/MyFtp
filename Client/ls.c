@@ -49,8 +49,12 @@ void	rec_ls(int fd, char *ip, char **args)
   int	rd;
   int	sfd;
   char	buf[LINE_SIZE];
+  char	full_buf[LINE_SIZE];
 
-  write(fd, wtos(args), strlen(wtos(args)));
+  memset(full_buf, 0, LINE_SIZE);
+  strcat(full_buf, wtos(args));
+  strcat(full_buf, "\r\n");
+  write(fd, full_buf, strlen(full_buf));
   if ((rd = read(fd, buf, LINE_SIZE)) <= 0)
     return ;
   buf[rd] = 0;

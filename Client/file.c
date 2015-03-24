@@ -74,8 +74,12 @@ void	file_transfer(int fd, char **args, char *ip)
   int	rd;
   int	sfd;
   char	buf[LINE_SIZE];
+  char	full_buf[LINE_SIZE];
 
-  write(fd, wtos(args), strlen(wtos(args)));
+  memset(full_buf, 0, LINE_SIZE);
+  strcat(full_buf, wtos(args));
+  strcat(full_buf, "\r\n");
+  write(fd, full_buf, strlen(full_buf));
   if ((rd = read(fd, buf, LINE_SIZE)) == -1)
     return ;
   buf[rd] = 0;

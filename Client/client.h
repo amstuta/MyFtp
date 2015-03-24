@@ -19,7 +19,7 @@ int			create_socket(char *, int);
 void			prompt(char *);
 int			check_cmd(char *);
 char			*real_cmd(char *, int);
-char			**clean_cmd(char *, int, char *);
+char			*clean_cmd(char *, int, char *);
 char			*wtos(char **);
 int			count_word(char *);
 char			**fill_up_res(char **, char *, int, int);

@@ -47,16 +47,18 @@ int			create_socket(char *ip, int port)
 void			prompt(char *ip)
 {
   int			rd;
-  char			**cmd_args;
+  //char			**cmd_args;
+  char			*cmd;
   char			buf[LINE_SIZE];
   char			rep[LINE_SIZE];
 
   write(1, " > ", 3);
   while (read(0, buf, LINE_SIZE) > 0)
     {
-      if ((cmd_args = clean_cmd(buf, g_fd, ip)) != NULL)
+      if ((cmd = clean_cmd(buf, g_fd, ip)) != NULL)
 	{
-	  write(g_fd, wtos(cmd_args), strlen(wtos(cmd_args)));
+	  //write(g_fd, wtos(cmd_args), strlen(wtos(cmd_args)));
+	  write(g_fd, cmd, strlen(cmd));
 	  if ((rd = read(g_fd, rep, LINE_SIZE)) == -1)
 	    return ;
 	  rep[rd] = 0;
