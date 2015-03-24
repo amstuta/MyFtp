@@ -36,7 +36,7 @@ void	send_file(int fd, int sfd, char **args)
   int	ffd;
   char	buf[LINE_SIZE];
 
-  if ((ffd = open(args[0], O_RDONLY)) == -1)
+  if ((ffd = open(args[1], O_RDONLY)) == -1)
     {
       perror("");
       close(sfd);

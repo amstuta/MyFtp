@@ -84,6 +84,7 @@ void		cd(char *arg, char *home)
     }
   strcat(full_path, "/");
   strcat(full_path, arg);
+  //write(1, full_path, strlen(full_path));
   if (chdir(full_path) == -1)
     write(g_fd, "666 - Couldn't change directory \r\n", 33);
   else

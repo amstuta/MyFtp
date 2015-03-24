@@ -32,7 +32,7 @@ void			read_cmd(char *home)
       close(g_fd);
       exit(EXIT_FAILURE);
     }
-  buf[rd] = 0;
+  buf[rd - 2] = 0;
   clean_cmd(buf, home);
 }
 

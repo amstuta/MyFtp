@@ -27,6 +27,11 @@ char	*spec_cmd(char *cmd, char **res, int fd, char *ip)
       rec_ls(fd, ip, res);
       return (NULL);
     }
+  else if (!strncmp(cmd, "cd", 2))
+    {
+      strcat(res[1], "\r\n");
+      return (wtos(res));
+    }
   if (!check_cmd(cmd))
     return (NULL);
   return (real_cmd(cmd, fd));
@@ -55,7 +60,7 @@ char	*clean_cmd(char *cmd, int fd, char *ip)
 int     check_cmd(char *cmd)
 {
   if (!strcmp(cmd, "ls") ||
-      !strcmp(cmd, "cd") ||
+      !strncmp(cmd, "cd", 2) ||
       !strcmp(cmd, "get") ||
       !strcmp(cmd, "put") ||
       !strcmp(cmd, "pwd") ||
@@ -73,8 +78,8 @@ char	*real_cmd(char *cmd, int fd)
   res = NULL;
   if (!strcmp(cmd, "ls"))
     res = strdup("LIST \r\n");
-  else if (!strcmp(cmd, "cd"))
-    res = strdup("CWD ");
+  else if (!strncmp(cmd, "cd", 2))
+    res = strdup("CWD");
   else if (!strcmp(cmd, "get"))
     res = strdup("RETR");
   else if (!strcmp(cmd, "put"))
